@@ -200,7 +200,7 @@ export const MarkdownEditor = forwardRef<{ formatSelectedText: FormatTextFunctio
         // @ts-ignore
         ref={drop}
         className={cn(
-          "markdown-editor-panel animate-fade-in animate-duration-400 relative min-h-[400px] rounded-lg overflow-hidden transition-all duration-300 border-2 border-transparent",
+          "markdown-editor-panel animate-duration-400 relative min-h-[400px] rounded-lg overflow-hidden transition-all duration-300 border-2 border-transparent",
           isOver && "border-dashed border-gray-50 bg-gray-900",
         )}
       >

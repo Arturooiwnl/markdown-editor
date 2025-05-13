@@ -34,7 +34,7 @@ export function MarkdownPreview({ markdown, codeStyle }: MarkdownPreviewProps) {
   const selectedTheme = codeThemes[codeStyle as keyof typeof codeThemes] || vscDarkPlus
 
   return (
-    <div className="animate-fade-in animate-duration-500 github-markdown">
+    <div className=" animate-duration-500 github-markdown">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{

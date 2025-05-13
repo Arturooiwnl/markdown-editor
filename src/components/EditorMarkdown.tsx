@@ -156,7 +156,7 @@ function saludar() {
                   <span className="sr-only">Descargar Markdown</span>
                 </button>
                 {(activeTab === "preview" || activeTab === "split") && (
-                  <div className="animate-fade-in duration-300 relative inline-block">
+                  <div className="relative inline-block">
                     <button
                       onClick={() => document.getElementById('theme-dropdown')?.classList.toggle('hidden')}
                       className="flex items-center gap-2 bg-gray-800 text-white rounded-lg px-4 py-2 text-sm mr-2 
@@ -264,7 +264,7 @@ function saludar() {
 
                 {(activeTab === "preview" || activeTab === "split") && (
                   <div
-                    className={`${activeTab === "split" ? "-z-10 animate-fade-in animate-duration-500 md:w-1/2" : "-z-10 w-full sm:px-10"} ${getPreviewBackground()} rounded-lg p-6 overflow-auto`}
+                    className={`${activeTab === "split" ? "-z-10 animate-duration-500 md:w-1/2" : "-z-10 w-full sm:px-10"} ${getPreviewBackground()} rounded-lg p-6 overflow-auto`}
                   >
                     <MarkdownPreview markdown={markdown} codeStyle={previewTheme}/>
                   </div>

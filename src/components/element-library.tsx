@@ -115,7 +115,7 @@ export function ElementLibrary() {
   ]
 
   return (
-    <div className="animate-fade-in animate-duration-300 bg-gray-900 rounded-lg overflow-hidden">
+    <div className=" animate-duration-300 bg-gray-900 rounded-lg overflow-hidden">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between p-3 text-sm font-medium hover:bg-gray-800 transition-colors duration-300 cursor-pointer"
