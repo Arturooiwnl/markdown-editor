@@ -23,7 +23,7 @@ Este es un texto en **negrita**, y este está en *cursiva*. También puedes comb
 
 ## Imágenes
 
-![Imagen de Fondo](https://blog.facialix.com/wp-content/uploads/2023/12/curso-gratis-Markdown.jpg)
+![Imagen de Fondo](https://mdeditor.arturoiwnl.pro/images/makdown-image-example.webp)
 
 ## Código
 
@@ -130,7 +130,7 @@ function saludar() {
   }
 
   return (
-      <main className="relative min-h-screen text-white">
+      <main className="relative min-h-screen text-white mt-20">
         <div className="container mx-auto p-4">
           <div className="flex flex-col">
             <header className="flex items-center justify-between py-4 border-b border-gray-800 mb-2">
@@ -156,7 +156,7 @@ function saludar() {
                   <span className="sr-only">Descargar Markdown</span>
                 </button>
                 {(activeTab === "preview" || activeTab === "split") && (
-                  <div className="relative inline-block">
+                  <div className="animate-fade-in duration-300 relative inline-block">
                     <button
                       onClick={() => document.getElementById('theme-dropdown')?.classList.toggle('hidden')}
                       className="flex items-center gap-2 bg-gray-800 text-white rounded-lg px-4 py-2 text-sm mr-2 
@@ -264,7 +264,7 @@ function saludar() {
 
                 {(activeTab === "preview" || activeTab === "split") && (
                   <div
-                    className={`${activeTab === "split" ? "-z-10 animate-duration-500 md:w-1/2" : "-z-10 w-full sm:px-10"} ${getPreviewBackground()} rounded-lg p-6 overflow-auto`}
+                    className={`${activeTab === "split" ? "-z-10 animate-fade-in animate-duration-500 md:w-1/2" : "-z-10 w-full sm:px-10"} ${getPreviewBackground()} rounded-lg p-6 overflow-auto`}
                   >
                     <MarkdownPreview markdown={markdown} codeStyle={previewTheme}/>
                   </div>

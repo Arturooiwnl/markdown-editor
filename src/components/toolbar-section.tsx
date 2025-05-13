@@ -134,7 +134,7 @@ export function ToolbarSection({ onInsert, onFormat, onLinkFormat }: ToolbarSect
   }
 
   return (
-    <div className=" animate-duration-500 bg-gray-900 rounded-lg p-2 flex flex-wrap items-center justify-center gap-1">
+    <div className="animate-fade-in animate-duration-500 bg-gray-900 rounded-lg p-2 flex flex-wrap items-center justify-center gap-1">
       {toolbarItems.map((item, index) => (
       <button
         key={index}

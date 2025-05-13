@@ -1,6 +1,6 @@
 ---
 
-import LinkButtonAnimated from './LinkButtonAnimated.astro';
+import LinkButtonAnimated from './LinkButtonNoBlank.astro';
 
 import MarkdownIcon from './icons/markdownIcon.astro';
 
@@ -9,10 +9,10 @@ interface Props {
 }
 
 const NAVIGATIONS = [
-    { name: 'Inicio', href: '#inicio', label: 'inicio' },
-    { name: 'Sobre Nosotros', href: '#sobre-nosotros', label: 'sobre-nosotros' },
-    { name: 'Resultados', href: '#resultados', label: 'resultados' },
-    { name: 'Proyectos', href: '#proyectos', label: 'proyectos' },
+    { name: 'Inicio', href: '/', label: 'inicio' },
+    { name: 'Definir', href: '', label: 'definir' },
+    { name: 'Definir', href: '', label: 'definir' },
+    { name: 'Definir', href: '', label: 'definir' },
 ];
 
 const EDITOR_LINK = {
@@ -27,7 +27,8 @@ const EDITOR_LINK = {
 <header class="rounded-b-md dark:text-gray-50 relative z-70 w-full ">
 	<div class="navbar-content animate-delay-400 bg-slate-950/30  shadow-md fixed top-0 left-1/2 -translate-x-1/2 container mx-auto flex justify-between items-center px-7 py-4 rounded-none sm:rounded-b-2xl backdrop-blur-md">
 		<div class="flex items-center text-white">
-			<img class="h-10 w-10 sm:h-12 sm:w-12" src="/icon.webp" alt="logo de KingStudios y de Arturoiwnl">
+      <span class="title-gradient-text font-Audiowide">MarkdownEditor</span>
+			<!-- <img class="h-10 w-10 sm:h-12 sm:w-12" src="/icon.webp" alt="logo de KingStudios y de Arturoiwnl"> -->
 		</div>
 		<nav class="navbar-desktop">
             <ul class="hidden sm:flex justify-start items-center gap-3 text-lg">
