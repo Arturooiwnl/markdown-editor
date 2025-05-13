@@ -1,0 +1,32 @@
+{
+  "name": "markdown-editor",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/react": "^4.2.7",
+    "@fontsource/audiowide": "^5.2.5",
+    "@midudev/tailwind-animations": "^0.2.0",
+    "@tailwindcss/vite": "^4.1.6",
+    "@types/react": "^19.1.4",
+    "@types/react-dom": "^19.1.4",
+    "astro": "^5.7.12",
+    "lucide-react": "^0.510.0",
+    "react": "^19.1.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "^19.1.0",
+    "react-markdown": "^10.1.0",
+    "react-syntax-highlighter": "^15.6.1",
+    "tailwind-merge": "^3.3.0",
+    "tailwindcss": "^4.1.6"
+  },
+  "devDependencies": {
+    "@types/react-syntax-highlighter": "^15.5.13"
+  }
+}

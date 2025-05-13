@@ -1,0 +1,163 @@
+---
+
+import LinkButtonAnimated from './LinkButtonAnimated.astro';
+
+import MarkdownIcon from './icons/markdownIcon.astro';
+
+interface Props {
+	actualPage?: string;
+}
+
+const NAVIGATIONS = [
+    { name: 'Inicio', href: '#inicio', label: 'inicio' },
+    { name: 'Sobre Nosotros', href: '#sobre-nosotros', label: 'sobre-nosotros' },
+    { name: 'Resultados', href: '#resultados', label: 'resultados' },
+    { name: 'Proyectos', href: '#proyectos', label: 'proyectos' },
+];
+
+const EDITOR_LINK = {
+  displayName: "Comenzar",
+  icon: MarkdownIcon,
+  class: "text-blue-300 font-bold",
+  link: "/editor"
+}
+
+---
+
+<header class="rounded-b-md dark:text-gray-50 relative z-70 w-full ">
+	<div class="navbar-content animate-delay-400 bg-slate-950/30  shadow-md fixed top-0 left-1/2 -translate-x-1/2 container mx-auto flex justify-between items-center px-7 py-4 rounded-none sm:rounded-b-2xl backdrop-blur-md">
+		<div class="flex items-center text-white">
+			<img class="h-10 w-10 sm:h-12 sm:w-12" src="/icon.webp" alt="logo de KingStudios y de Arturoiwnl">
+		</div>
+		<nav class="navbar-desktop">
+            <ul class="hidden sm:flex justify-start items-center gap-3 text-lg">
+                {NAVIGATIONS.map((nav) => (
+                    <li>
+                    <a href={nav.href} class="relative inline-block font-Chakra text-white group">
+                        
+                        <span class="z-30 dark:text-gray-100 text-gray-900 transition-all duration-300 px-2">
+                        {nav.name}
+                        </span>
+                        <span aria-label={nav.label} class={`-z-10 absolute left-1/2 bottom-0 w-0 h-full bg-slate-700 transition-all duration-300 group-hover:w-full group-hover:left-0 rounded-lg`}></span>
+                    </a>
+                    </li>
+                ))}
+            </ul>
+		</nav>
+
+
+        <div tabindex="0" class="sm:hidden">
+            <button role="button" aria-label="Abrir o cerrar menu Hamburgesa" id="hamburger-menu" class="group cursor-pointer flex flex-col justify-center items-center w-10 h-10 border border-slate-700 rounded-md transition-all duration-300">
+                <span class="line1 block w-6 h-0.5 bg-white mb-1 transform transition-all duration-300 origin-center"></span>
+                <span class="line2 block w-6 h-0.5 bg-white mb-1 transition-all duration-300"></span>
+                <span class="line3 block w-6 h-0.5 bg-white transform transition-all duration-300 origin-center"></span>
+            </button>
+        </div>
+
+    <div class="flex sm:hidden"></div>
+    <nav class="flex sm:hidden fixed bottom-[-175px] left-0 w-full z-50 bg-slate-950/60"> 
+        <ul id="mobile-menu" class="w-full hidden flex-col items-start gap-8 text-lg border-b border-slate-70 shadow-md p-5">
+            {NAVIGATIONS.map((nav) => (
+                    <li class="mb-1.5">
+                    <a aria-label={`${nav.name}`} href={nav.href} class="relative inline-block font-Chakra text-white group">
+                        <span class="dark:text-gray-100 text-gray-900 transition-all duration-300">
+                        {nav.name}
+                        </span>
+                        <span class="absolute left-1/2 bottom-0 w-0 h-[2px] bg-gradient-to-r from-[#D8B4FE] via-[#A78BFA] to-[#7C3AED] transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+                    </a>
+                    </li>
+            ))}
+        </ul>
+    </nav>
+		<div class="group mt-2">
+            <LinkButtonAnimated extraClass={EDITOR_LINK.class} href={EDITOR_LINK.link}><EDITOR_LINK.icon class="lg:mr-2.5 size-6"/> <span class="hidden lg:flex">{EDITOR_LINK.displayName}</span></LinkButtonAnimated>
+		</div>
+	</div>
+
+</header>
+
+<style>
+
+
+    #hamburger-menu.open .line1 {
+        transform: rotate(45deg) translateY(8px);
+        margin-left: 10px
+        
+    }
+    #hamburger-menu.open .line2 {
+        opacity: 0;
+    }
+    #hamburger-menu.open .line3 {
+        transform: rotate(-45deg) translateY(-8px);
+        margin-left: 10px
+    }
+
+
+</style>
+
+
+<script is:inline>
+
+    const hamburgerMenu = document.getElementById('hamburger-menu');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navigationLinks = mobileMenu.querySelectorAll('a');
+
+    hamburgerMenu.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+        hamburgerMenu.classList.toggle('open'); 
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!hamburgerMenu.contains(event.target) && !mobileMenu.contains(event.target)) {
+            mobileMenu.classList.add('hidden');
+            hamburgerMenu.classList.remove('open'); 
+        }
+    });
+
+    navigationLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            hamburgerMenu.classList.remove('open');
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+    const sections = document.querySelectorAll("section")
+    const navItems = document.querySelectorAll("header nav a span[aria-label]")
+
+    const callback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          navItems.forEach((item) => {
+            if (item.getAttribute("aria-label") == entry.target.id) {
+              item.classList = "-z-10 absolute bottom-0 h-full bg-gradient-to-br from-gray-600/40 via-slate-700/40 to-gray-600/40  transition-all duration-300 w-full left-0 rounded-lg"
+            } else {
+              item.classList = "-z-10 absolute left-1/2 bottom-0 w-0 h-full bg-gradient-to-br from-gray-600/40 via-slate-700/40 to-gray-600/40 transition-all duration-300 group-hover:w-full group-hover:left-0 rounded-lg"
+            }
+          })
+        }
+      })
+    }
+
+    const observer = new IntersectionObserver(callback, {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.3,
+    })
+
+    sections.forEach((section) => {
+      observer.observe(section)
+    })
+
+    document.onvisibilitychange = () => {
+      if (document.visibilityState === "hidden") {
+        observer.disconnect()
+      } else {
+        sections.forEach((section) => {
+          observer.observe(section)
+        })
+      }
+    }
+  })
+
+</script>
