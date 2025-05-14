@@ -1,0 +1,90 @@
+---
+import { ChevronDown } from "lucide-react";
+---
+<section id="faq" class="overflow-hidden bg-white dark:bg-transparent py-12 mt-5">
+    <div class="relative mx-auto max-w-7xl px-6 py-28 lg:py-24">
+        <div class="relative z-10 mx-auto max-w-4xl">
+            <h1 class="relative text-balance text-4xl font-semibold md:text-5xl lg:text-6xl text-white text-center font-Audiowide group mb-3">
+                Preguntas Frecuentes
+                <span class="absolute -bottom-2 w-[60%] sm:w-[40%] left-1/2 -translate-x-1/2 h-2 bg-gradient-to-r from-purple-700/70 to-blue-600/70"></span>
+            </h1>
+
+            <p class="py-2 mx-auto max-w-2xl text-center text-base sm:text-xl text-gray-200 leading-relaxed mb-16">
+                Encuentra respuestas a las dudas más comunes sobre nuestra herramienta
+            </p>
+
+            <div class="space-y-6">
+                <div class="faq-item">
+                    <button class="w-full text-left p-6 bg-slate-900/50 backdrop-blur-sm rounded-xl border border-gray-700/30 transition-all duration-300 hover:border-purple-500/50">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xl font-semibold text-white">¿Qué es Markdown?</h3>
+                            <ChevronDown className="w-5 h-5 text-gray-400 transform transition-transform duration-300" />
+                        </div>
+                        <div class="mt-4 text-gray-300 hidden">
+                            Markdown es un lenguaje de marcado ligero que te permite escribir texto con formato usando una sintaxis simple y legible. Es ampliamente utilizado para crear documentación, blogs y contenido web.
+                        </div>
+                    </button>
+                </div>
+
+                <div class="faq-item">
+                    <button class="w-full text-left p-6 bg-slate-900/50 backdrop-blur-sm rounded-xl border border-gray-700/30 transition-all duration-300 hover:border-purple-500/50">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xl font-semibold text-white">¿Por qué usar nuestro editor?</h3>
+                            <ChevronDown className="w-5 h-5 text-gray-400 transform transition-transform duration-300" />
+                        </div>
+                        <div class="mt-4 text-gray-300 hidden">
+                            Nuestro editor ofrece una experiencia moderna y fluida, con vista previa en tiempo real, atajos de teclado y soporte completo para la sintaxis Markdown. Además, es gratuito.
+                        </div>
+                    </button>
+                </div>
+
+                <div class="faq-item">
+                    <button class="w-full text-left p-6 bg-slate-900/50 backdrop-blur-sm rounded-xl border border-gray-700/30 transition-all duration-300 hover:border-purple-500/50">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xl font-semibold text-white">¿Qué es MDX?</h3>
+                            <ChevronDown className="w-5 h-5 text-gray-400 transform transition-transform duration-300" />
+                        </div>
+                        <div class="mt-4 text-gray-300 hidden">
+                            MDX es una extensión de Markdown que permite usar componentes React/JSX dentro de tu contenido. Combina la simplicidad de Markdown con la potencia de los componentes web modernos.
+                        </div>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .faq-item button:hover {
+        background: linear-gradient(to right, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
+    }
+
+    .faq-item.active .chevron {
+        transform: rotate(180deg);
+    }
+</style>
+
+<script is:inline>
+    document.querySelectorAll('.faq-item button').forEach(button => {
+        button.addEventListener('click', () => {
+            const content = button.querySelector('div:last-child');
+            const chevron = button.querySelector('svg');
+            const wasHidden = content.classList.contains('hidden');
+            
+            // Cerrar todos los items
+            document.querySelectorAll('.faq-item button div:last-child').forEach(div => {
+                div.classList.add('hidden');
+            });
+            document.querySelectorAll('.faq-item button svg').forEach(svg => {
+                svg.style.transform = 'rotate(0deg)';
+            });
+
+            // Abrir/cerrar el item actual
+            if (wasHidden) {
+                content.classList.remove('hidden');
+                chevron.style.transform = 'rotate(180deg)';
+            }
+        });
+    });
+</script>

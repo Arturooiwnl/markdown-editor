@@ -1,18 +1,30 @@
 ---
 
 import LinkButtonAnimated from './LinkButtonNoBlank.astro';
-
 import MarkdownIcon from './icons/markdownIcon.astro';
 
 interface Props {
 	actualPage?: string;
 }
 
+const { actualPage = '/' } = Astro.props;
+
 const NAVIGATIONS = [
-    { name: 'Inicio', href: '/', label: 'inicio' },
-    { name: 'Definir', href: '', label: 'definir' },
-    { name: 'Definir', href: '', label: 'definir' },
-    { name: 'Definir', href: '', label: 'definir' },
+    { 
+        name: 'Inicio', 
+        href: actualPage === '/editor' ? '/' : '#inicio', 
+        label: 'inicio' 
+    },
+    { 
+        name: 'Editores', 
+        href: actualPage === '/editor' ? '/#editores' : '#editores', 
+        label: 'editores' 
+    },
+    { 
+        name: 'FAQ', 
+        href: actualPage === '/editor' ? '/#faq' : '#faq', 
+        label: 'faq' 
+    },
 ];
 
 const EDITOR_LINK = {
@@ -24,76 +36,78 @@ const EDITOR_LINK = {
 
 ---
 
-<header class="rounded-b-md dark:text-gray-50 relative z-70 w-full ">
-	<div class="navbar-content animate-delay-400 bg-slate-950/30  shadow-md fixed top-0 left-1/2 -translate-x-1/2 container mx-auto flex justify-between items-center px-7 py-4 rounded-none sm:rounded-b-2xl backdrop-blur-md">
-		<div class="flex items-center text-white">
-      <span class="title-gradient-text font-Audiowide">MarkdownEditor</span>
-			<!-- <img class="h-10 w-10 sm:h-12 sm:w-12" src="/icon.webp" alt="logo de KingStudios y de Arturoiwnl"> -->
+<header class="rounded-b-md dark:text-gray-50 relative z-70 w-full">
+	<div class="navbar-content animate-fade-down animate-duration-700 bg-gradient-to-r from-slate-950/80 via-slate-900/80 to-slate-950/80 shadow-lg shadow-slate-900/20 fixed top-0 left-1/2 -translate-x-1/2 container mx-auto flex justify-between items-center px-7 py-4 rounded-none sm:rounded-b-2xl backdrop-blur-md border-b border-slate-800/30">
+		<div class="flex items-center text-whit mt-3 sm:mt-1">
+			<img class="h-12 w-12 sm:h-15 sm:w-15" src="/icon.webp" alt="logo de KingStudios y de Arturoiwnl">
 		</div>
 		<nav class="navbar-desktop">
-            <ul class="hidden sm:flex justify-start items-center gap-3 text-lg">
+            <ul class="hidden sm:flex justify-start items-center mt-3 gap-5 text-lg">
                 {NAVIGATIONS.map((nav) => (
                     <li>
-                    <a href={nav.href} class="relative inline-block font-Chakra text-white group">
-                        
-                        <span class="z-30 dark:text-gray-100 text-gray-900 transition-all duration-300 px-2">
+                    <a href={nav.href} class="relative inline-block text-white group overflow-hidden py-2">
+                        <span class="relative z-30 text-gray-100 transition-all duration-300 px-2 group-hover:text-white">
                         {nav.name}
                         </span>
-                        <span aria-label={nav.label} class={`-z-10 absolute left-1/2 bottom-0 w-0 h-full bg-slate-700 transition-all duration-300 group-hover:w-full group-hover:left-0 rounded-lg`}></span>
+                        <span aria-label={nav.label} class="absolute inset-0 bg-gradient-to-r from-blue-600 to-violet-600 translate-y-[101%] group-hover:translate-y-0 transition-transform duration-300 rounded-lg"></span>
                     </a>
                     </li>
                 ))}
             </ul>
 		</nav>
 
-
-        <div tabindex="0" class="sm:hidden">
-            <button role="button" aria-label="Abrir o cerrar menu Hamburgesa" id="hamburger-menu" class="group cursor-pointer flex flex-col justify-center items-center w-10 h-10 border border-slate-700 rounded-md transition-all duration-300">
-                <span class="line1 block w-6 h-0.5 bg-white mb-1 transform transition-all duration-300 origin-center"></span>
-                <span class="line2 block w-6 h-0.5 bg-white mb-1 transition-all duration-300"></span>
-                <span class="line3 block w-6 h-0.5 bg-white transform transition-all duration-300 origin-center"></span>
+        <div tabindex="0" class="sm:hidden mt-3">
+            <button role="button" aria-label="Abrir o cerrar menu Hamburgesa" id="hamburger-menu" class="group cursor-pointer flex flex-col justify-center items-center w-10 h-10 border border-slate-700 rounded-md transition-all duration-300 hover:border-blue-500">
+                <span class="line1 block w-6 h-0.5 bg-gradient-to-r from-blue-400 to-violet-400 mb-1 transform transition-all duration-300 origin-center"></span>
+                <span class="line2 block w-6 h-0.5 bg-gradient-to-r from-blue-400 to-violet-400 mb-1 transition-all duration-300"></span>
+                <span class="line3 block w-6 h-0.5 bg-gradient-to-r from-blue-400 to-violet-400 transform transition-all duration-300 origin-center"></span>
             </button>
         </div>
 
-    <div class="flex sm:hidden"></div>
-    <nav class="flex sm:hidden fixed bottom-[-175px] left-0 w-full z-50 bg-slate-950/60"> 
-        <ul id="mobile-menu" class="w-full hidden flex-col items-start gap-8 text-lg border-b border-slate-70 shadow-md p-5">
+    <nav class="flex sm:hidden fixed bottom-[-175px] left-0 w-full z-50 bg-gradient-to-b from-slate-950/95 to-slate-900/95 backdrop-blur-lg"> 
+        <ul id="mobile-menu" class="w-full hidden flex-col items-start gap-8 text-lg border-t border-slate-800/30 shadow-lg p-5">
             {NAVIGATIONS.map((nav) => (
-                    <li class="mb-1.5">
-                    <a aria-label={`${nav.name}`} href={nav.href} class="relative inline-block font-Chakra text-white group">
-                        <span class="dark:text-gray-100 text-gray-900 transition-all duration-300">
-                        {nav.name}
+                    <li class="mb-3.5 w-full">
+                    <a aria-label={`${nav.name}`} href={nav.href} class="relative inline-block text-white group w-full">
+                        <span class="text-gray-100 transition-all duration-300 flex items-center gap-2 group-hover:translate-x-2">
+                            <span class="h-1 w-5 bg-gradient-to-r from-blue-500 to-violet-500 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                            {nav.name}
                         </span>
-                        <span class="absolute left-1/2 bottom-0 w-0 h-[2px] bg-gradient-to-r from-[#D8B4FE] via-[#A78BFA] to-[#7C3AED] transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
                     </a>
                     </li>
             ))}
         </ul>
     </nav>
 		<div class="group mt-2">
-            <LinkButtonAnimated extraClass={EDITOR_LINK.class} href={EDITOR_LINK.link}><EDITOR_LINK.icon class="lg:mr-2.5 size-6"/> <span class="hidden lg:flex">{EDITOR_LINK.displayName}</span></LinkButtonAnimated>
+            <LinkButtonAnimated  href={EDITOR_LINK.link}>
+                <EDITOR_LINK.icon class="lg:mr-2.5 size-6"/> 
+                <span class="hidden lg:flex">{EDITOR_LINK.displayName}</span>
+            </LinkButtonAnimated>
 		</div>
 	</div>
-
 </header>
 
 <style>
-
+    .title-gradient-text {
+        background: linear-gradient(to right, #60A5FA, #A78BFA);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
 
     #hamburger-menu.open .line1 {
         transform: rotate(45deg) translateY(8px);
-        margin-left: 10px
-        
+        margin-left: 10px;
+        background: linear-gradient(to right, #3B82F6, #7C3AED);
     }
     #hamburger-menu.open .line2 {
         opacity: 0;
     }
     #hamburger-menu.open .line3 {
         transform: rotate(-45deg) translateY(-8px);
-        margin-left: 10px
+        margin-left: 10px;
+        background: linear-gradient(to right, #3B82F6, #7C3AED);
     }
-
-
 </style>
 
 

@@ -6,8 +6,6 @@ import {description, siteName, imageMetaAlt} from './constLayout'
 
 import '../styles/global.css';
 
-import Header from '@/components/Header.astro';
-
 interface Props {
   title: string;
 }
@@ -24,17 +22,17 @@ const { title } = Astro.props;
 	<meta name="description" content={description}/>
 	<meta property="og:title" content={siteName} />
 	<meta property="og:type" content="website" />
-	<meta property="og:url" content="https://studio.arturoiwnl.pro/" />
+	<meta property="og:url" content="https://mdeditor.arturoiwnl.pro/" />
 	<meta property="og:locale" content="es" />
 	<meta property="og:description" content={description}/>
 	<meta property="og:site_name" content={siteName} />
-	<meta property="og:image" content="https://studio.arturoiwnl.pro/og/og-main.jpg" />
+	<meta property="og:image" content="https://mdeditor.arturoiwnl.pro/og/og-main.jpg" />
 	<meta property="og:image:alt" content={imageMetaAlt} />
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:site" content="@ArturoPerotto" />
 	<meta name="twitter:title" content={siteName} />
 	<meta name="twitter:description" content={description}/>
-	<meta name="twitter:image" content="https://studio.arturoiwnl.pro/og/og-main.jpg" />
+	<meta name="twitter:image" content="https://mdeditor.arturoiwnl.pro/og/og-main.jpg" />
 	<meta name="twitter:image:alt" content={imageMetaAlt} />
 	<meta name="robots" content="max-image-preview:large" />
     <title>{title}</title>
@@ -47,98 +45,11 @@ const { title } = Astro.props;
 		  </div>
 	</div>
 	<main>
-		<Header/>
 		<slot />
 	</main>
 </body>
 </html>
-
-<script type="module">
-
-import { animate, inView } from "https://cdn.jsdelivr.net/npm/motion@12.10.0/+esm"
-
-const counters = document.querySelectorAll("#count");
-
-const heroHeader = document.querySelector(".hero-header")
-
-counters.forEach(counter => {
-	inView(counter, () => {
-
-		animate(0, 100, {
-		duration: 2,
-		ease: "circOut",
-		onUpdate: (latest) => {
-			counter.innerHTML = `${Math.round(latest)}%`;
-		}
-	});
-	}, { once: true })
-});
-
-inView(heroHeader, () => {
-	heroHeader.classList.add('sm:animate-fade-in-right')
-  }, { once: true })
-
-inView(".about-text", (element) => {
-      element.classList.add('sm:animate-fade-in-right')
-  }, { once: true })
-
-inView(".mockup-big-hero", (element) => {
-      element.classList.add('sm:animate-fade-in')
-  }, { once: true })
-
-inView(".mockup-small-hero", (element) => {
-      element.classList.add('sm:animate-fade-in')
-  }, { once: true })
-
-inView(".navbar-content", (element) => {
-      element.classList.add('sm:animate-fade-in')
-  }, { once: true })
-
-inView("#title-section", (element) => {
-      element.classList.add('sm:animate-fade-in')
-  }, { once: true })
-inView(".footer", (element) => {
-      element.classList.add('sm:animate-fade-in')
-  }, { once: true })
-
-inView(".carousel-tech", (element) => {
-      element.classList.add('sm:animate-fade-in')
-  }, { once: true })
-
-  for (let i = 1; i <= 4; i++) {
-	inView(`.about-item-${i}`, (el) => {
-	el.classList.add('sm:animate-fade-in');
-	}, { once: true });
-	}
-
-inView(".scroll-to-top", (el) => {
-	el.classList.add('sm:animate-fade-in');
-	}, { once: true });
-
-
-for (let i = 1; i <= 6; i++) {
-	inView(`.social-button-${i}`, (el) => {
-	el.classList.add('sm:animate-fade-in');
-	}, { once: true });
-	}
-
-for (let i = 1; i <= 4; i++) {
-	inView(`.bento-el-${i}`, (el) => {
-	el.classList.add('sm:animate-fade-in');
-	}, { once: true });	
-	}
-for (let i = 1; i <= 3; i++) {
-	inView(`.project-card-${i}`, (el) => {
-	el.classList.add('sm:animate-fade-in');
-	}, { once: true });	
-	}
-</script>
-
 <style is:global>
-	/* :root {
-	  color-scheme: light dark;
-	} */
-
 	html {
 	  font-family: system-ui, sans-serif;
 	  scroll-behavior: smooth;
@@ -160,9 +71,4 @@ for (let i = 1; i <= 3; i++) {
 	  }
 	}
 
-	/* @media (prefers-color-scheme: dark) {
-	  body {
-		color: rgba(255, 255, 255, 0.9);
-	  }
-	} */
 </style>

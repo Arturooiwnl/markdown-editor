@@ -1,8 +1,16 @@
 ---
 import Home from '@/components/Home.astro';
+import EditorsSection from '@/components/EditorsSection.astro';
 import Layout from '../layouts/Layout.astro';
+import Header from '@/components/Header.astro';
+import FaqSection from '@/components/FaqSection.astro';
+import Footer from '@/components/Footer.astro';
 ---
 
-<Layout title='MarkdownEditor | Panel | Un editor de Markdown fácil de usar y gratis.'>
+<Layout title='MdEditor | Inicio | Un editor de Markdown fácil de usar y gratis.'>
+	<Header actualPage='/'/>
 	<Home/>
+	<EditorsSection/>
+	<FaqSection/>
+	<Footer actualPage='/'/>
 </Layout>

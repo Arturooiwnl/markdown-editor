@@ -1,0 +1,146 @@
+---
+import DiscordIcon from "./icons/discordIcon.astro";
+import GithubIcon from "./icons/Github.astro";
+import InstagramIcon from "./icons/Instagram.astro";
+import TwitterIcon from "./icons/Twitter.astro";
+import LinkedInIcon from "./icons/LinkedIn.astro";
+
+interface Props {
+	actualPage?: string;
+}
+
+const { actualPage = '/' } = Astro.props;
+
+const NAVIGATIONS = [
+    { name: 'Inicio', href: '#inicio' },
+    { name: 'Editores', href: '/#editores' },
+    { name: 'FAQ', href: '/#faq' },
+];
+
+const SOCIAL_LINKS = [
+  {
+    name: "GitHub",
+    icon: GithubIcon,
+    link: "https://github.com/arturooiwnl",
+  },
+  {
+    name: "Discord",
+    icon: DiscordIcon,
+    link: "https://discord.gg/b6T46qY5me",
+  },
+  {
+    name: "LinkedIn",
+    icon: LinkedInIcon,
+    link: "https://www.linkedin.com/in/arturo-perotto-4028ab34a/",
+  },
+  {
+    name: "Twitter",
+    icon: TwitterIcon,
+    link: "https://twitter.com/arturoperotto",
+  },
+  {
+    name: "Instagram",
+    icon: InstagramIcon,
+    link: "https://www.instagram.com/arturoossj",
+  }
+];
+
+---
+
+<section id="faq" class="footer">
+    <footer class="relative mt-15 bg-gradient-to-t from-20% from-slate-900/50 to-transparent">
+        <div class="-z-5 absolute inset-0 w-full h-full overflow-hidden">
+            <svg width="100%" height="100%" class="absolute opacity-10 dark:opacity-20">
+              <defs>
+  
+                <pattern id="connected-circuits" x="0" y="0" width="150" height="150" patternUnits="userSpaceOnUse">
+                  <path d="M10 75 H140" stroke="#333" stroke-width="1" fill="none" />
+                  <path d="M75 10 V140" stroke="#333" stroke-width="1" fill="none" />
+                  <circle cx="75" cy="75" r="3" fill="#333" />
+                  <path d="M75 75 L110 40" stroke="#333" stroke-width="1" fill="none" />
+                  <path d="M75 75 L40 110" stroke="#333" stroke-width="1" fill="none" />
+                </pattern>
+  
+                <mask id="fade-mask">
+                  <rect width="100%" height="100%" fill="url(#fade-gradient)" />
+                </mask>
+  
+                <radialGradient id="fade-gradient" cx="50%" cy="50%" r="70%">
+                  <stop offset="0%" stop-color="white" />
+                  <stop offset="100%" stop-color="black" />
+                </radialGradient>
+  
+              </defs>
+  
+              <rect width="100%" height="100%" fill="url(#connected-circuits)" mask="url(#fade-mask)" class="text-gray-400 dark:text-gray-600" />
+            </svg>
+          
+            <div class="absolute inset-0 opacity-5 dark:opacity-10">
+              <div class="absolute left-[10%] top-[20%] text-xs font-mono text-gray-900 dark:text-gray-200">0</div>
+              <div class="absolute left-[20%] top-[50%] text-xs font-mono text-gray-900 dark:text-gray-200">1</div>
+              <div class="absolute left-[35%] top-[15%] text-xs font-mono text-gray-900 dark:text-gray-200">0</div>
+              <div class="absolute left-[45%] top-[65%] text-xs font-mono text-gray-900 dark:text-gray-200">1</div>
+              <div class="absolute left-[55%] top-[35%] text-xs font-mono text-gray-900 dark:text-gray-200">0</div>
+              <div class="absolute left-[70%] top-[60%] text-xs font-mono text-gray-900 dark:text-gray-200">1</div>
+              <div class="absolute left-[85%] top-[25%] text-xs font-mono text-gray-900 dark:text-gray-200">0</div>
+            </div>
+          </div>
+        <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+            <div class="md:flex md:justify-between">
+              <div class="mb-6 md:mb-0">
+                  <div class="flex items-center">
+                      <img src="/icon.webp" class="h-12 me-3" alt="logo de KingStudios y de Arturoiwnl" />
+                      <span class="self-center text-2xl whitespace-nowrap dark:text-white font-Chakra font-bold uppercase">MDEDITOR</span>
+                  </div>
+                  <p class="text-sm mt-2 text-gray-500 dark:text-gray-400 font-medium max-w-[300px] sm:max-w-[400px] text-pretty">Imagina y Construye como tu quieras.</p>
+              </div>
+              <div class="grid grid-cols-2 gap-8 sm:gap-10 sm:grid-cols-2">
+                  <div>
+                      <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">NAVEGACIONES</h2>
+                      <ul class="text-gray-500 dark:text-gray-400 font-medium">
+                        {NAVIGATIONS.map((nav) => (
+                            <li class="mb-4">
+                                <a aria-label={`Ir a la sección ${nav.name}`} href={nav.href} class="hover:text-gray-300 transition-all duration-300">{nav.name}</a>
+                            </li>
+                        ))}
+                      </ul>
+                  </div>
+                  <div>
+                      <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Siguenos</h2>
+                      <ul class="text-gray-500 dark:text-gray-400 font-medium">
+                        {SOCIAL_LINKS.map((media) => (
+                            <li class="mb-4">
+                                <a aria-label={`Ir a ${media.name}`} href={media.link} rel="noopener noreferrer" target="_blank" class="hover:text-gray-300 transition-all duration-300">{media.name}</a>
+                            </li>
+                        ))}
+                      </ul>
+                  </div>
+              </div>
+          </div>
+          <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+          <div class="flex flex-col sm:flex-row justify-center items-center sm:justify-between">
+              <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 MdEditor & Arturoiwnl. Todos los derechos de estilos y ideas de esta web reservados.
+              </span>
+              <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400 flex items-center gap-1">Owner <a aria-label="Ir al portafolio de Arturoiwnl" target="_blank" href="https://arturoiwnl.pro/" rel="noopener noreferrer" class="flex gap-0.5 items-center hover:scale-105 transition-all duration-300 bg-gradient-to-r from-[#D4AF37] via-[#FFD700] to-[#B8860B] bg-clip-text text-transparent">Arturoiwnl </a>
+              </span>
+              <div class="flex mt-4 sm:justify-center sm:mt-0">
+
+                {SOCIAL_LINKS.map((media) => (
+                  <a aria-label={`Link a ${media.name}`} rel="noopener noreferrer" target="_blank" href={media.link} class="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5 transition-colors duration-300">
+                    <media.icon class="size-5" />
+                  </a>
+                ))}
+
+              </div>
+          </div>
+        </div>
+            <div tabindex="0" class="scroll-to-top absolute -top-20 right-10">
+                <a aria-label="Volver arriba" href={actualPage === '/' ? '#inicio' : '/'} class="text-white group/scrolltop flex relative bg-slate-800/50 px-5 py-2 rounded-full hover:bg-slate-700/50 border border-gray-600/30 hover:border-gray-500/30 hover:scale-98">
+                <svg class="size-10 sm:w-6 rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                <span class="pointer-events-none absolute top-4 -left-32 w-[120px] pl-2 mr-10 bg-slate-800/50 rounded-full hover:bg-slate-700/50 border border-gray-600/30 hover:border-gray-500/30 opacity-0 group-hover/scrolltop:opacity-100 transition-opacity duration-300">Volver al Inicio</span>
+            </a>
+            </div>
+    </footer>
+</section>

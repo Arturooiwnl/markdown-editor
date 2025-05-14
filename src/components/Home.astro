@@ -1,36 +1,73 @@
 ---
-import LinkButtonAnimated from "./LinkButtonNoBlank.astro"
-
 import { ArrowRight } from "lucide-react";
-
 ---
         <section id="inicio" class="overflow-hidden bg-white dark:bg-transparent mt-10">
             <div class="relative mx-auto max-w-5xl px-6 py-28 lg:py-24">
                 <div class="relative z-10 mx-auto max-w-2xl text-center">
                     <h1 class="text-balance text-4xl font-semibold md:text-5xl lg:text-6xl title-gradient-text font-Audiowide">MarkdownEditor</h1>
-                    <p class="mx-auto my-8 max-w-2xl text-xl text-gray-200">Edita tu markdown con una vista previa en vivo rápido y fácil de usar.</p>
-
-                    <LinkButtonAnimated href="/editor"><span>Empezar a Editar</span> <ArrowRight/> </LinkButtonAnimated>
+                    <p class="mx-auto my-8 max-w-2xl text-sm sm:text-xl text-gray-200">Edita tu markdown con una vista previa en vivo rápido y fácil de usar.</p>
+    
+        <div class="justify-center items-center flex flex-col-reverse md:flex-row gap-2">
+            <a 
+        href="/editor" 
+        aria-label="Ir al editor" 
+        role="button" 
+        class="group inline-flex text-xs sm:text-sm items-center gap-2 border border-slate-500 hover:scale-99 bg-slate-700 hover:bg-slate-600 hover:border-slate-400 text-white px-5 py-3 rounded-lg transition-all duration-300"
+    >
+        Empezar a editar
+        <ArrowRight className="size-5 transition-transform duration-300 group-hover:-rotate-45"/>
+                </a>
+            <a 
+        href="#editores" 
+        aria-label="Ir a la seccion sobre editores" 
+        role="button" 
+        class="group text-xs sm:text-sm inline-flex items-center gap-2 border border-slate-500 hover:scale-99 bg-transparent hover:bg-slate-600 hover:border-slate-400 text-white px-5 py-3 rounded-lg transition-all duration-300"
+    >
+        Explorar
+        <ArrowRight className="size-5 transition-transform duration-300 group-hover:rotate-90"/>
+                </a>
+        </div>
+                  
                       
                 </div>
             </div>
 
             <div class="mx-auto -mt-16 max-w-7xl">
-                <div class="relative w-full max-w-6xl mx-auto [mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)] px-2 lg:px-0">
-                    <img
-                        class="w-full rounded-lg border shadow-xl dark:hidden"
-                        src="/images/panel-editor.webp"
-                        alt="Tailark hero section"
-                        width={2880}
-                        height={2074}
-                    />
-                    <img
-                        class="w-full rounded-lg border shadow-xl hidden dark:block"
-                        src="/images/panel-editor.webp"
-                        alt="Tailark hero section"
-                        width={2880}
-                        height={2074}
-                    />
+                <div class="w-full max-w-6xl mx-auto [mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)] px-3 lg:px-0 overflow-hidden rounded-lg">
+                    <div class="group border border-slate-800 transition-all duration-300 relative w-full  bg-gradient-to-br from-purple-100 via-pink-50 to-blue-50 flex justify-end items-end py-5 rounded-lg shadow-inner backdrop-blur-sm overflow-hidden">
+
+                        <img
+                            class="group-hover:scale-99 group-hover:translate-x-6 translate-x-5 transition-all duration-300 w-[95%] object-cover rounded-lg border shadow-xl block"
+                            src="/images/panel-editor.webp"
+                            alt="Tailark hero section"
+                            width={2880}
+                            height={2074}
+                        />
+                        <div class="-z-2 absolute inset-0 bg-white dark:bg-gray-950">
+                            <div 
+                              class="absolute inset-0"
+                              style={{
+                                backgroundImage: `
+                                  linear-gradient(to right, rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+                                  linear-gradient(to bottom, rgba(59, 130, 246, 0.05) 1px, transparent 1px)
+                                `,
+                                backgroundSize: '40px 40px',
+                              }}
+                            />
+                            <div 
+                              class="absolute inset-0"
+                              style={{
+                                backgroundImage: `
+                                  linear-gradient(to right, rgba(139, 92, 246, 0.1) 2px, transparent 2px),
+                                  linear-gradient(to bottom, rgba(139, 92, 246, 0.1) 2px, transparent 2px)
+                                `,
+                                backgroundSize: '80px 80px',
+                              }}
+                            />
+                            <div class="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-transparent to-purple-50/30 dark:from-blue-950/20 dark:via-transparent dark:to-purple-950/20" />
+                          </div>
+
+                    </div>
                 </div>
             </div>
         </section>
