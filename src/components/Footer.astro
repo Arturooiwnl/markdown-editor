@@ -134,13 +134,17 @@ const SOCIAL_LINKS = [
               </div>
           </div>
         </div>
-            <div tabindex="0" class="scroll-to-top absolute -top-20 right-10">
-                <a aria-label="Volver arriba" href={actualPage === '/' ? '#inicio' : '/'} class="text-white group/scrolltop flex relative bg-slate-800/50 px-5 py-2 rounded-full hover:bg-slate-700/50 border border-gray-600/30 hover:border-gray-500/30 hover:scale-98">
-                <svg class="size-10 sm:w-6 rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                </svg>
-                <span class="pointer-events-none absolute top-4 -left-32 w-[120px] pl-2 mr-10 bg-slate-800/50 rounded-full hover:bg-slate-700/50 border border-gray-600/30 hover:border-gray-500/30 opacity-0 group-hover/scrolltop:opacity-100 transition-opacity duration-300">Volver al Inicio</span>
-            </a>
-            </div>
+
+            { actualPage === '/' &&
+              <div tabindex="0" class="scroll-to-top absolute -top-20 right-10">
+                  <a aria-label="Volver arriba" href='#inicio' class="text-white group/scrolltop flex relative bg-slate-800/50 px-5 py-2 rounded-full hover:bg-slate-700/50 border border-gray-600/30 hover:border-gray-500/30 hover:scale-98">
+                  <svg class="size-10 sm:w-6 rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                  </svg>
+                  <span class="pointer-events-none absolute top-4 -left-32 w-[120px] pl-2 mr-10 bg-slate-800/50 rounded-full hover:bg-slate-700/50 border border-gray-600/30 hover:border-gray-500/30 opacity-0 group-hover/scrolltop:opacity-100 transition-opacity duration-300">Volver al Inicio</span>
+              </a>
+              </div>
+            }
+
     </footer>
 </section>

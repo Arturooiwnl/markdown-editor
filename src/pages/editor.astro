@@ -1,13 +1,10 @@
 ---
 import MarkdownEditorPanel from '../components/EditorMarkdown';
 import Layout from '../layouts/Layout.astro';
-import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
-
 ---
 
 <Layout title='MarkdownEditor | Editor | Un editor de Markdown fácil de usar y gratis.'>
-	<Header actualPage='/editor'/>
-	<MarkdownEditorPanel client:only="react"/>
+	<MarkdownEditorPanel client:only/>
 	<Footer actualPage='/editor'/>
 </Layout>

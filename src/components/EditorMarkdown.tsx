@@ -7,8 +7,9 @@ import { MarkdownPreview } from "@/components/markdown-preview"
 import { ToolbarSection } from "@/components/toolbar-section"
 import { ElementLibrary } from "@/components/element-library"
 import { LinkModal } from "@/components/link-modal"
-import { Download, ArrowLeftSquare, ArrowDown } from "lucide-react"
+import { Download, ArrowLeftSquare, ArrowDown, ChevronRight, LogInIcon, LogOutIcon} from "lucide-react"
 import { FileNameModal } from "@/components/file-name-modal"
+import { SignedIn, SignedOut, SignInButton, SignOutButton, UserButton } from "@clerk/astro/react";
 
 export default function Home() {
   const [markdown, setMarkdown] = useState<string>(`# ¡Bienvenido al Editor de Markdown!
@@ -55,8 +56,22 @@ function saludar() {
   const [selectionRange, setSelectionRange] = useState<{ start: number; end: number } | null>(null)
   const [isFileNameModalOpen, setIsFileNameModalOpen] = useState(false)
   const [previewTheme, setPreviewTheme] = useState<"site" | "github" | "monokai" | "dracula" | "nord">("site")
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const editorRef = useRef<{ formatSelectedText: FormatTextFunction } | null>(null)
+  
+  const toggleSidebar = () => {
+    setIsSidebarCollapsed(!isSidebarCollapsed)
+  }
+
+  const toggleMobileSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen)
+  }
+
+  const closeMobileSidebar = () => {
+    setIsSidebarOpen(false)
+  }
 
   useEffect(() => {
     const checkIfMobile = () => {
@@ -129,8 +144,72 @@ function saludar() {
     }
   }
 
+
   return (
+
       <main className="relative min-h-screen text-white mt-20">
+      <div 
+        id="mobile-overlay" 
+        className={`fixed inset-0 bg-black/50 z-40 lg:hidden ${!isSidebarOpen && 'hidden'}`}
+        onClick={closeMobileSidebar}
+      ></div>
+
+<aside 
+        className={`fixed left-0 top-0 h-screen transition-all duration-300 ease-in-out z-50 ${isSidebarCollapsed ? 'collapsed' : ''}`}
+      >
+        <button
+          onClick={toggleMobileSidebar}
+          className="flex lg:hidden rotate-180 cursor-pointer fixed top-4 left-4 bg-slate-900 text-gray-300 p-2 hover:text-white transition-all duration-300 border border-slate-800 rounded-full shadow-lg"
+        >
+          <ChevronRight className="w-6 h-6 transition-transform duration-300 rotate-180" />
+        </button>
+
+        <div 
+          className={`fixed lg:static ${!isSidebarOpen ? '-translate-x-full' : 'translate-x-0'} lg:translate-x-0 h-full w-72 ${isSidebarCollapsed ? 'lg:w-10' : 'lg:w-64'} bg-gray-900/95 backdrop-blur-md border-r border-gray-800 flex flex-col justify-between p-4 transition-all duration-300 shadow-xl lg:shadow-none`}
+        >
+          <div className="flex flex-col justify-center items-center space-y-6 mt-12 lg:mt-0">
+            <a 
+              href="/" 
+              className="flex items-center space-x-3 text-gray-300 hover:text-white transition-colors duration-200"
+            >
+              <ArrowLeftSquare className="size-6 bg-slate-700 px-1 rounded-md" />
+              <span className={`inline-block ${isSidebarCollapsed ? 'lg:hidden' : ''} font-medium`}>Volver al Inicio</span>
+            </a>
+
+            <button 
+              onClick={toggleSidebar}
+              className={`hidden lg:block cursor-pointer absolute top-3 ${!isSidebarCollapsed ? '-right-3' : '-right-7'} bg-slate-900 text-gray-300 p-1 hover:text-white transition-all duration-300 border-slate-950 rounded-full`}
+            >
+              <ChevronRight className={`w-7 h-7 transition-transform duration-300 ${!isSidebarCollapsed ? 'rotate-180' : ''}`} />
+            </button>
+          </div>
+          
+          <div className="flex flex-col items-center space-y-4 w-full">
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className="cursor-pointer flex items-center justify-center text-gray-300 hover:text-white transition-colors duration-200 bg-gray-800 rounded-lg px-3 py-2 w-full">
+                  <div className="flex gap-2 items-center">  
+                    <LogInIcon className={`size-7 lg:size-5 ${isSidebarCollapsed ? 'lg:size-4' : ''}`} />
+                    <span className={`inline-block ${isSidebarCollapsed ? 'lg:hidden' : ''}`}>Iniciar Sesión</span>
+                  </div>
+                </button>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton/>
+              <SignOutButton>
+                <button className="cursor-pointer flex items-center justify-center text-gray-300 hover:text-white transition-colors duration-200 bg-gray-800 rounded-lg px-3 py-2 w-full">
+                  <div className="flex gap-2 items-center">
+                    <LogOutIcon className={`size-7 lg:size-5 rotate-180 ${isSidebarCollapsed ? 'lg:size-4' : ''}`} />
+                    <span className={`inline-block ${isSidebarCollapsed ? 'lg:hidden' : ''}`}>Cerrar Sesión</span>
+                  </div>
+                </button>
+              </SignOutButton>
+            </SignedIn>
+          </div>
+        </div>
+      </aside>
+
         <div className="container mx-auto p-4">
           <div className="flex flex-col">
             <header className="flex items-center justify-between py-4 border-b border-gray-800 mb-2">

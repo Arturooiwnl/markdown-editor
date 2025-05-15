@@ -49,3 +49,8 @@
 .markdown-editor-panel::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(120deg, #a445b2, #d972ff);
 }
+
+.cl-userButtonBox{
+    @apply flex flex-row-reverse text-white text-sm;
+}
+

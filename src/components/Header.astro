@@ -1,6 +1,7 @@
 ---
+import { SignedIn, SignedOut, SignInButton, SignOutButton } from "@clerk/astro/components";
 
-import LinkButtonAnimated from './LinkButtonNoBlank.astro';
+import { User2,LayoutDashboardIcon } from "lucide-react";
 import MarkdownIcon from './icons/markdownIcon.astro';
 
 interface Props {
@@ -39,10 +40,10 @@ const EDITOR_LINK = {
 <header class="rounded-b-md dark:text-gray-50 relative z-70 w-full">
 	<div class="navbar-content animate-fade-down animate-duration-700 bg-gradient-to-r from-slate-950/80 via-slate-900/80 to-slate-950/80 shadow-lg shadow-slate-900/20 fixed top-0 left-1/2 -translate-x-1/2 container mx-auto flex justify-between items-center px-7 py-4 rounded-none sm:rounded-b-2xl backdrop-blur-md border-b border-slate-800/30">
 		<div class="flex items-center text-whit mt-3 sm:mt-1">
-			<img class="h-12 w-12 sm:h-15 sm:w-15" src="/icon.webp" alt="logo de KingStudios y de Arturoiwnl">
+			<img class="h-10 w-10 sm:h-12 sm:w-12" src="/icon.webp" alt="logo de KingStudios y de Arturoiwnl">
 		</div>
 		<nav class="navbar-desktop">
-            <ul class="hidden sm:flex justify-start items-center mt-3 gap-5 text-lg">
+            <ul class="hidden sm:flex justify-start items-center mt-3 gap-5 text-sm">
                 {NAVIGATIONS.map((nav) => (
                     <li>
                     <a href={nav.href} class="relative inline-block text-white group overflow-hidden py-2">
@@ -79,10 +80,28 @@ const EDITOR_LINK = {
         </ul>
     </nav>
 		<div class="group mt-2">
-            <LinkButtonAnimated  href={EDITOR_LINK.link}>
-                <EDITOR_LINK.icon class="lg:mr-2.5 size-6"/> 
-                <span class="hidden lg:flex">{EDITOR_LINK.displayName}</span>
-            </LinkButtonAnimated>
+
+      <SignedOut>
+        <SignInButton class="cursor-pointer relative inline-flex items-center justify-center px-3 py-1 font-medium text-white transition-all duration-300 bg-gradient-to-r from-blue-600 to-violet-600 rounded-lg hover:from-blue-700 hover:to-violet-700 hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-blue-500/25 gap-1" mode="modal">
+          <User2 className="w-5 h-5" />
+          <span class="relative flex items-center gap-2">
+            Iniciar Sesión
+          </span>
+        </SignInButton>
+      </SignedOut>
+      <SignedIn>
+        <div class="flex items-center gap-3">
+          <SignOutButton class="hover:text-white/80 text-sm cursor-pointer">
+            Cerrar Sesión
+          </SignOutButton>
+          <a href="/editor" aria-label="ir al editor" class="relative inline-flex items-center justify-center px-3 py-1 font-medium text-white transition-all duration-300 bg-gradient-to-r from-blue-600 to-violet-600 rounded-lg hover:from-blue-700 hover:to-violet-700 hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-blue-500/25 gap-1">
+            <LayoutDashboardIcon className="w-5 h-5" />
+            <span class="relative flex items-center gap-2">
+              Editor
+            </span>
+          </a>
+        </div>
+      </SignedIn>
 		</div>
 	</div>
 </header>
