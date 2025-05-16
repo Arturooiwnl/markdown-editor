@@ -25,3 +25,5 @@ version 0.1.1
 > - Se integró el cliente Supabase para operaciones CRUD de documentos
 > - Se actualizó `EditorMarkdown` con función de guardado automático y edición de documentos
 > - Se eliminaron dependencias no utilizadas y se limpió el código
+## 1.2.2 (16/05/2025)
+- Se modificó el archivo EditorsSection.astro para actualizar la etiqueta de versión y agregar la etiqueta beta.
