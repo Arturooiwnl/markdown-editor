@@ -7,9 +7,12 @@ import { MarkdownPreview } from "@/components/markdown-preview"
 import { ToolbarSection } from "@/components/toolbar-section"
 import { ElementLibrary } from "@/components/element-library"
 import { LinkModal } from "@/components/link-modal"
-import { Download, ArrowLeftSquare, ArrowDown, ChevronRight, LogInIcon, LogOutIcon} from "lucide-react"
+import { Download, ArrowLeftSquare, ArrowDown, ChevronRight, LogInIcon, LogOutIcon, Clock, Save} from "lucide-react"
 import { FileNameModal } from "@/components/file-name-modal"
-import { SignedIn, SignedOut, SignInButton, SignOutButton, UserButton } from "@clerk/astro/react";
+import { SignedIn, SignedOut, SignInButton, SignOutButton, UserButton, useAuth } from "@clerk/astro/react"
+import { cn } from "@/lib/utils"
+import EditorSaver from "./editor-saver"
+import DocumentList from './DocumentsList';
 
 export default function Home() {
   const [markdown, setMarkdown] = useState<string>(`# ¡Bienvenido al Editor de Markdown!
@@ -58,6 +61,12 @@ function saludar() {
   const [previewTheme, setPreviewTheme] = useState<"site" | "github" | "monokai" | "dracula" | "nord">("site")
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [autoSave, setAutoSave] = useState(false)
+  const [title, setTitle] = useState("")
+  const [description, setDescription] = useState("")
+  const [isEditorMode, setIsEditorMode] = useState(true)
+
+  const { isLoaded, userId } = useAuth()
 
   const editorRef = useRef<{ formatSelectedText: FormatTextFunction } | null>(null)
   
@@ -144,47 +153,183 @@ function saludar() {
     }
   }
 
+  // Cargar preferencias y contenido al iniciar
+  useEffect(() => {
+    if (isLoaded && userId) {
+      // Cargar preferencia de autoguardado
+      const savedAutoSave = localStorage.getItem(`autosave-${userId}`)
+      if (savedAutoSave === 'true') {
+        setAutoSave(true)
+      }
+  
+      // Cargar contenido guardado
+      const savedContent = localStorage.getItem(`markdown-content-${userId}`)
+      if (savedContent) {
+        setMarkdown(savedContent)
+      }
+    }
+  }, [isLoaded, userId])
+  
+  // Guardar preferencia cuando cambie autoSave
+  useEffect(() => {
+    if (userId) {
+      localStorage.setItem(`autosave-${userId}`, autoSave.toString())
+    }
+  }, [autoSave, userId])
+  
+  // Guardar contenido al salir de la página si autoSave está activo
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (userId && autoSave) {
+        localStorage.setItem(`markdown-content-${userId}`, markdown)
+      }
+    }
+  
+    window.addEventListener('beforeunload', handleBeforeUnload)
+  
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+    }
+  }, [userId, autoSave, markdown])
+  
 
   return (
 
       <main className="relative min-h-screen text-white mt-20">
       <div 
         id="mobile-overlay" 
-        className={`fixed inset-0 bg-black/50 z-40 lg:hidden ${!isSidebarOpen && 'hidden'}`}
+        className={`fixed inset-0 bg-black/50 z-10 ${!isSidebarOpen && 'hidden'}`}
         onClick={closeMobileSidebar}
       ></div>
 
-<aside 
-        className={`fixed left-0 top-0 h-screen transition-all duration-300 ease-in-out z-50 ${isSidebarCollapsed ? 'collapsed' : ''}`}
-      >
+    <aside className="fixed left-0 top-0 h-screen z-10">
+    <div className="relative">
         <button
           onClick={toggleMobileSidebar}
-          className="flex lg:hidden rotate-180 cursor-pointer fixed top-4 left-4 bg-slate-900 text-gray-300 p-2 hover:text-white transition-all duration-300 border border-slate-800 rounded-full shadow-lg"
+          className="cursor-pointer fixed top-4 left-4 bg-slate-900 text-gray-300 p-2 hover:text-white transition-all duration-300 border border-slate-800 rounded-full shadow-lg group"
         >
-          <ChevronRight className="w-6 h-6 transition-transform duration-300 rotate-180" />
+          <ChevronRight className={`w-6 h-6 transition-transform duration-300 ${isSidebarOpen ? 'rotate-180' : ''}`} />
+          <span className="absolute left-full ml-2 px-2 top-2 py-1 bg-gray-800 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+            Abrir barra lateral
+          </span>
         </button>
+      </div>
 
-        <div 
-          className={`fixed lg:static ${!isSidebarOpen ? '-translate-x-full' : 'translate-x-0'} lg:translate-x-0 h-full w-72 ${isSidebarCollapsed ? 'lg:w-10' : 'lg:w-64'} bg-gray-900/95 backdrop-blur-md border-r border-gray-800 flex flex-col justify-between p-4 transition-all duration-300 shadow-xl lg:shadow-none`}
-        >
-          <div className="flex flex-col justify-center items-center space-y-6 mt-12 lg:mt-0">
+      <div 
+        className={`fixed h-full w-72 ${!isSidebarOpen ? '-translate-x-full' : 'translate-x-0'} bg-gray-900/95 backdrop-blur-md border-r border-gray-800 flex flex-col p-4 transition-all duration-300 shadow-xl`}
+      >
+        <div className="flex flex-col space-y-6">
+          <div className="flex flex-col justify-center items-center mt-12">
             <a 
               href="/" 
               className="flex items-center space-x-3 text-gray-300 hover:text-white transition-colors duration-200"
             >
               <ArrowLeftSquare className="size-6 bg-slate-700 px-1 rounded-md" />
-              <span className={`inline-block ${isSidebarCollapsed ? 'lg:hidden' : ''} font-medium`}>Volver al Inicio</span>
+              <span className="font-medium">Volver al Inicio</span>
             </a>
-
-            <button 
-              onClick={toggleSidebar}
-              className={`hidden lg:block cursor-pointer absolute top-3 ${!isSidebarCollapsed ? '-right-3' : '-right-7'} bg-slate-900 text-gray-300 p-1 hover:text-white transition-all duration-300 border-slate-950 rounded-full`}
-            >
-              <ChevronRight className={`w-7 h-7 transition-transform duration-300 ${!isSidebarCollapsed ? 'rotate-180' : ''}`} />
-            </button>
           </div>
-          
-          <div className="flex flex-col items-center space-y-4 w-full">
+
+          <SignedIn>
+            <div className="relative group">
+              <button
+                onClick={() => setAutoSave(!autoSave)}
+                className="w-full flex items-center justify-between px-3 py-2 rounded-lg transition-all duration-300 hover:bg-gray-800/50"
+              >
+                <div className="flex items-center gap-2">
+                  <Clock size={20} className="shrink-0" />
+                  <span className="whitespace-nowrap">Auto Guardado</span>
+                </div>
+                <div className="w-9 h-5 bg-slate-800 rounded-full relative shrink-0">
+                  <div className={`absolute top-[2px] left-[2px] bg-gray-300 w-4 h-4 rounded-full transition-all duration-300 ${
+                    autoSave ? 'translate-x-4 bg-gradient-to-br from-purple-700 to-indigo-800' : ''
+                  }`} />
+                </div>
+              </button>
+              <div className="absolute left-1/2 -translate-x-1/2 -top-8 px-2 py-1 bg-gray-800 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+                {autoSave ? 'Desactivar Autoguardado' : 'Activar Autoguardado'}
+              </div>
+            </div>
+          </SignedIn>
+
+          <SignedOut>
+            <div className="relative group">
+              <button 
+                disabled
+                className="w-full flex items-center justify-between px-3 py-2 rounded-lg transition-all duration-300 cursor-not-allowed text-gray-500"
+              >
+                <div className="flex items-center gap-2">
+                  <Clock size={20} className="shrink-0" />
+                  <span className="whitespace-nowrap">Auto Guardado</span>
+                </div>
+                <div className="w-9 h-5 bg-slate-800 rounded-full relative shrink-0">
+                  <div className="absolute top-[2px] left-[2px] bg-gray-600 w-4 h-4 rounded-full" />
+                </div>
+              </button>
+              <div className="absolute -right-15 translate-x-1/2 -top-8 px-2 py-1 bg-gray-800 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+                Inicia sesión para activar el autoguardado
+              </div>
+            </div>
+          </SignedOut>
+
+          <SignedIn>
+          <DocumentList markdown={markdown} onEdit={(doc) => {
+          setTitle(doc.title);
+          setDescription(doc.description);
+          setMarkdown(doc.content); 
+          }} />
+        </SignedIn>
+        <SignedOut>
+          <DocumentList disabled markdown={markdown} onEdit={(doc) => {
+          setTitle(doc.title);
+          setDescription(doc.description);
+          setMarkdown(doc.content); 
+          }} />
+        </SignedOut>
+
+          <div className={`animate-fade-in duration-300 relative`}>
+              <button
+                onClick={() => document.getElementById('theme-dropdown')?.classList.toggle('hidden')}
+                className="flex items-center gap-2 bg-gray-800 text-white rounded-lg px-4 py-2 text-sm w-full
+                  border border-gray-700 hover:border-purple-500 hover:bg-gray-700
+                  transition-all duration-200 cursor-pointer group"
+              >
+                <span className="capitalize">{previewTheme}</span>
+                <ArrowDown 
+                  size={16} 
+                  className="transform group-hover:rotate-180 transition-transform duration-200 ml-auto"
+                />
+              </button>
+              
+              <div 
+                id="theme-dropdown"
+                className="hidden absolute z-[60] mt-2 w-full rounded-lg shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5"
+              >
+                <div className="py-1 px-2">
+                  {['site', 'github', 'monokai', 'dracula', 'nord'].map((theme) => (
+                    <button
+                      key={theme}
+                      onClick={() => {
+                        setPreviewTheme(theme as any);
+                        document.getElementById('theme-dropdown')?.classList.add('hidden');
+                      }}
+                      className={`${
+                        previewTheme === theme ? 'bg-gray-700 text-purple-400' : 'text-white'
+                      } cursor-pointer rounded-md mb-0.5 group flex w-full items-center px-4 py-2 text-sm capitalize hover:bg-gray-700
+                      transition-colors duration-150`}
+                    >
+                      <span className="flex-grow text-left">{theme}</span>
+                      {previewTheme === theme && (
+                        <span className="text-purple-400">✓</span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div className="flex flex-col h-full justify-end items-center space-y-4 w-full">
             <SignedOut>
               <SignInButton mode="modal">
                 <button className="cursor-pointer flex items-center justify-center text-gray-300 hover:text-white transition-colors duration-200 bg-gray-800 rounded-lg px-3 py-2 w-full">
@@ -210,7 +355,7 @@ function saludar() {
         </div>
       </aside>
 
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto p-4 -z-10">
           <div className="flex flex-col">
             <header className="flex items-center justify-between py-4 border-b border-gray-800 mb-2">
               <div className="mt-2 flex items-center gap-2">
@@ -220,9 +365,12 @@ function saludar() {
                     Volver al Inicio
                   </span>
                 </a>
+                <div className="flex flex-col">
                 <h1 className="text-lg sm:text-2xl font-bold title-gradient-text font-Audiowide">
                   Panel de Edición
                 </h1>
+                <p className="text-gray-400">archivo en edicion: {title || 'Ninguno'}</p>
+                </div>
               </div>
               <div className="flex items-center gap-2">
                 <button
@@ -234,48 +382,6 @@ function saludar() {
                   <span className="hidden md:inline">Descargar</span>
                   <span className="sr-only">Descargar Markdown</span>
                 </button>
-                {(activeTab === "preview" || activeTab === "split") && (
-                  <div className="animate-fade-in duration-300 relative inline-block">
-                    <button
-                      onClick={() => document.getElementById('theme-dropdown')?.classList.toggle('hidden')}
-                      className="flex items-center gap-2 bg-gray-800 text-white rounded-lg px-4 py-2 text-sm mr-2 
-                        border border-gray-700 hover:border-purple-500 hover:bg-gray-700
-                        transition-all duration-200 cursor-pointer group"
-                    >
-                      <span className="capitalize">{previewTheme}</span>
-                      <ArrowDown 
-                        size={16} 
-                        className="transform group-hover:rotate-180 transition-transform duration-200"
-                      />
-                    </button>
-                    
-                    <div 
-                      id="theme-dropdown"
-                      className="hidden absolute z-50 mt-2 w-48 rounded-lg shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5"
-                    >
-                      <div className="z-20 py-1 px-2">
-                        {['site', 'github', 'monokai', 'dracula', 'nord'].map((theme) => (
-                          <button
-                            key={theme}
-                            onClick={() => {
-                              setPreviewTheme(theme as any);
-                              document.getElementById('theme-dropdown')?.classList.add('hidden');
-                            }}
-                            className={`${
-                              previewTheme === theme ? 'bg-gray-700 text-purple-400' : 'text-white'
-                            } cursor-pointer rounded-md mb-0.5 group flex w-full items-center px-4 py-2 text-sm capitalize hover:bg-gray-700
-                            transition-colors duration-150`}
-                          >
-                            <span className="flex-grow text-left">{theme}</span>
-                            {previewTheme === theme && (
-                              <span className="text-purple-400">✓</span>
-                            )}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
                 <div className="flex rounded-lg bg-gray-800/30 p-1">
                   <button
                     onClick={() => setActiveTab("write")}

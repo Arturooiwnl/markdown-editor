@@ -1,5 +1,3 @@
-"use client"
-
 import type React from "react"
 
 import { useState, useEffect, useRef } from "react"
@@ -15,6 +13,17 @@ interface FileNameModalProps {
 export function FileNameModal({ isOpen, onClose, onConfirm, defaultFileName = "document" }: FileNameModalProps) {
   const [fileName, setFileName] = useState(defaultFileName)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  // useEffect(() => {
+  //   if (isOpen) {
+  //     document.body.style.overflow = 'hidden'
+  //   } else {
+  //     document.body.style.overflow = 'auto'
+  //   }
+  //   return () => {
+  //     document.body.style.overflow = 'auto'
+  //   }
+  // }, [isOpen])
 
   useEffect(() => {
     if (isOpen) {

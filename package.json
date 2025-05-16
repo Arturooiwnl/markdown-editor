@@ -12,6 +12,7 @@
     "@astrojs/react": "^4.2.7",
     "@astrojs/vercel": "^8.1.4",
     "@clerk/astro": "^2.7.3",
+    "@clerk/themes": "^2.2.44",
     "@fontsource/audiowide": "^5.2.5",
     "@midudev/tailwind-animations": "^0.2.0",
     "@supabase/supabase-js": "^2.49.4",
