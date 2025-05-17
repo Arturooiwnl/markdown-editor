@@ -8,3 +8,8 @@ import Footer from '@/components/Footer.astro';
 	<MarkdownEditorPanel client:only/>
 	<Footer actualPage='/editor'/>
 </Layout>
+
+<script type="module">
+	console.log("URL:", import.meta.env.PUBLIC_SUPABASE_URL);
+	console.log("KEY:", import.meta.env.PUBLIC_SUPABASE_ANON_KEY?.slice(0, 20) + "...");
+  </script>
