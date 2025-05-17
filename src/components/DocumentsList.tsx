@@ -123,10 +123,10 @@ function DocumentList({ onEdit, markdown, disabled = false }: DocumentListProps)
       <ul className="documents-list space-y-4 overflow-y-scroll max-h-[200px]">
         {documents.map((doc) => (
           // @ts-ignore
-          <li key={doc.id} className="bg-slate-800 p-4 rounded relative">
-            <h3 className="text-lg font-bold">{(doc as { title: string }).title}</h3>
-            <p className="text-sm text-gray-400">{(doc as { description: string }).description}</p>
-            <p className="text-xs text-gray-500">
+          <li key={doc.id} className="bg-slate-800 p-4 rounded relative max-w-[220px] overflow-hidden">
+            <h3 className="text-lg font-bold truncate pr-12">{(doc as { title: string }).title}</h3>
+            <p className="text-sm text-gray-400 line-clamp-2 break-words">{(doc as { description: string }).description}</p>
+            <p className="text-xs text-gray-500 mt-2">
               Guardado el {new Date((doc as { created_at: string }).created_at).toLocaleDateString()}
             </p>
 
