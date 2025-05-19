@@ -308,7 +308,7 @@ function saludar() {
           </SignedOut>
 
 
-          <SignedIn>
+          {/* <SignedIn>
           <DocumentList markdown={markdown} onEdit={(doc) => {
           setTitle(doc.title);
           setDescription(doc.description);
@@ -321,7 +321,7 @@ function saludar() {
           setDescription(doc.description);
           setMarkdown(doc.content); 
           }} />
-        </SignedOut> 
+        </SignedOut>  */}
 
           
           <div className="relative">
