@@ -8,14 +8,14 @@ export function useSupabase() {
 
   useEffect(() => {
     const init = async () => {
-      const token = await getToken(); // 🔥 ¡SIN template!
+      const token = await getToken(); 
       const client = createClient(
         import.meta.env.PUBLIC_SUPABASE_URL!,
         import.meta.env.PUBLIC_SUPABASE_ANON_KEY!,
         {
           global: {
             headers: {
-              Authorization: `Bearer ${token}`, // 🔐 Usa el session token de Clerk
+              Authorization: `Bearer ${token}`,
             },
           },
         }

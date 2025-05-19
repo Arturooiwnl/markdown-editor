@@ -11,7 +11,6 @@ import { Download, ArrowLeftSquare, ArrowDown, ChevronRight, LogInIcon, LogOutIc
 import { FileNameModal } from "@/components/file-name-modal"
 import { SignedIn, SignedOut, SignInButton, SignOutButton, UserButton, useAuth } from "@clerk/astro/react"
 import { cn } from "@/lib/utils"
-import EditorSaver from "./editor-saver"
 import DocumentList from './DocumentsList';
 
 export default function Home() {
