@@ -2,7 +2,6 @@
 import { SignedIn, SignedOut, SignInButton, SignOutButton } from "@clerk/astro/components";
 
 import { User2,LayoutDashboardIcon } from "lucide-react";
-import MarkdownIcon from './icons/markdownIcon.astro';
 
 interface Props {
 	actualPage?: string;
@@ -13,27 +12,25 @@ const { actualPage = '/' } = Astro.props;
 const NAVIGATIONS = [
     { 
         name: 'Inicio', 
-        href: actualPage === '/editor' ? '/' : '#inicio', 
+        href: actualPage === '/editor' || actualPage === '/changelog' ? '/' : '#inicio', 
         label: 'inicio' 
     },
     { 
         name: 'Editores', 
-        href: actualPage === '/editor' ? '/#editores' : '#editores', 
+        href: actualPage === '/editor' || actualPage === '/changelog' ? '/#editores' : '#editores', 
         label: 'editores' 
     },
     { 
         name: 'FAQ', 
-        href: actualPage === '/editor' ? '/#faq' : '#faq', 
+        href: actualPage === '/editor' || actualPage === '/changelog' ? '/#faq' : '#faq', 
         label: 'faq' 
     },
+    { 
+        name: 'Changelog', 
+        href: actualPage === '/editor' || actualPage === '/changelog' ? '/changelog' : '/changelog', 
+        label: 'changelog' 
+    },
 ];
-
-const EDITOR_LINK = {
-  displayName: "Comenzar",
-  icon: MarkdownIcon,
-  class: "text-blue-300 font-bold",
-  link: "/editor"
-}
 
 ---
 
@@ -68,7 +65,7 @@ const EDITOR_LINK = {
     <nav class="flex sm:hidden fixed bottom-[-175px] left-0 w-full z-50 bg-gradient-to-b from-slate-950/95 to-slate-900/95 backdrop-blur-lg"> 
         <ul id="mobile-menu" class="w-full hidden flex-col items-start gap-8 text-lg border-t border-slate-800/30 shadow-lg p-5">
             {NAVIGATIONS.map((nav) => (
-                    <li class="mb-3.5 w-full">
+                    <li class="mb-1 w-full">
                     <a aria-label={`${nav.name}`} href={nav.href} class="relative inline-block text-white group w-full">
                         <span class="text-gray-100 transition-all duration-300 flex items-center gap-2 group-hover:translate-x-2">
                             <span class="h-1 w-5 bg-gradient-to-r from-blue-500 to-violet-500 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>

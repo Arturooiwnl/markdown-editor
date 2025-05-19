@@ -12,9 +12,26 @@ interface Props {
 const { actualPage = '/' } = Astro.props;
 
 const NAVIGATIONS = [
-    { name: 'Inicio', href: '#inicio' },
-    { name: 'Editores', href: '/#editores' },
-    { name: 'FAQ', href: '/#faq' },
+{ 
+        name: 'Inicio', 
+        href: actualPage === '/editor' || actualPage === '/changelog' ? '/' : '#inicio', 
+        label: 'inicio' 
+    },
+    { 
+        name: 'Editores', 
+        href: actualPage === '/editor' || actualPage === '/changelog' ? '/#editores' : '#editores', 
+        label: 'editores' 
+    },
+    { 
+        name: 'FAQ', 
+        href: actualPage === '/editor' || actualPage === '/changelog' ? '/#faq' : '#faq', 
+        label: 'faq' 
+    },
+    { 
+        name: 'Changelog', 
+        href: actualPage === '/editor' || actualPage === '/changelog' ? '/changelog' : '/changelog', 
+        label: 'changelog' 
+    },
 ];
 
 const SOCIAL_LINKS = [
@@ -47,7 +64,7 @@ const SOCIAL_LINKS = [
 
 ---
 
-<section id="faq" class="footer">
+<section id={actualPage === '/changelog' ? 'changelog' : 'faq'} class="footer">
     <footer class="relative mt-15 bg-gradient-to-t from-20% from-slate-900/50 to-transparent">
         <div class="-z-5 absolute inset-0 w-full h-full overflow-hidden">
             <svg width="100%" height="100%" class="absolute opacity-10 dark:opacity-20">
@@ -100,7 +117,7 @@ const SOCIAL_LINKS = [
                       <ul class="text-gray-500 dark:text-gray-400 font-medium">
                         {NAVIGATIONS.map((nav) => (
                             <li class="mb-4">
-                                <a aria-label={`Ir a la sección ${nav.name}`} href={nav.href} class="hover:text-gray-300 transition-all duration-300">{nav.name}</a>
+                                <a aria-label={`Ir a la sección ${nav.name}`} href={nav.href} class="footer-link hover:text-gray-300 transition-all duration-300">{nav.name}</a>
                             </li>
                         ))}
                       </ul>
@@ -110,7 +127,7 @@ const SOCIAL_LINKS = [
                       <ul class="text-gray-500 dark:text-gray-400 font-medium">
                         {SOCIAL_LINKS.map((media) => (
                             <li class="mb-4">
-                                <a aria-label={`Ir a ${media.name}`} href={media.link} rel="noopener noreferrer" target="_blank" class="hover:text-gray-300 transition-all duration-300">{media.name}</a>
+                                <a aria-label={`Ir a ${media.name}`} href={media.link} rel="noopener noreferrer" target="_blank" class="footer-link hover:text-gray-300 transition-all duration-300">{media.name}</a>
                             </li>
                         ))}
                       </ul>

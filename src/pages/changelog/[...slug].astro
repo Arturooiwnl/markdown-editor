@@ -1,0 +1,52 @@
+---
+export const prerender = true
+
+import { type CollectionEntry, getCollection } from 'astro:content';
+import BlogPost from '../../layouts/BlogLayout.astro';
+import { render } from 'astro:content';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('changelog');
+	return posts.map((post: { id: any; }) => ({
+		params: { slug: post.id },
+		props: post,
+	}));
+}
+
+type Props = CollectionEntry<'changelog'>;
+
+const post = Astro.props;
+const { Content } = await render(post);
+---
+
+
+<BlogPost title={`MdEditor | Changelog - ${post.data.title}`} heroImage={post.data.heroImage || "/images/makdown-image-example.webp"} description={post.data.description}>
+	<div class="post-container">
+    <a href="/" class="fixed top-4 left-5 bg-slate-600/70 backdrop-blur-sm px-4 py-2 rounded-lg shadow-md text-sm hover:bg-slate-600/60 transition-all z-10 flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+      </svg>
+      Volver al inicio
+    </a>
+	
+	<div>
+		<h1 class="title-post relative">{post.data.title}
+
+			<span class="absolute w-1/4 h-1 -bottom-2 left-1/2 -translate-1/2 bg-amber-50"></span>
+			<time class="absolute -bottom-10 left-1/2 -translate-1/2 text-sm text-gray-400" datetime={post.data.pubDate.toISOString()}>
+				{new Date(post.data.pubDate).toLocaleDateString('es-ES', {
+					year: 'numeric',
+					month: 'long',
+					day: 'numeric'
+				})}
+			</time>
+		</h1>
+		  <img 
+			src={post.data.heroImage} 
+			alt={post.data.title}
+			class="w-full h-full mb-10 object-cover"
+		  />
+	</div>
+      <Content />
+  </div>
+</BlogPost>

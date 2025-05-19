@@ -10,13 +10,16 @@ import { dark } from '@clerk/themes'
 
 import vercel from '@astrojs/vercel';
 
+import mdx from '@astrojs/mdx';
+
 // https://astro.build/config
 export default defineConfig({
+
   integrations: [react(), clerk({
     appearance:{
       baseTheme: dark,
     }
-  })],
+  }), mdx()],
 
   vite: {
     plugins: [tailwindcss()]

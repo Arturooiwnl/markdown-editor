@@ -242,7 +242,7 @@ function saludar() {
             <div className="relative group">
               <button
                 onClick={() => setAutoSave(!autoSave)}
-                className="w-full flex items-center justify-between px-3 py-2 rounded-lg transition-all duration-300 hover:bg-gray-800/50"
+                className="cursor-pointer w-full flex items-center justify-between px-3 py-2 rounded-lg transition-all duration-300 hover:bg-gray-800/50"
               >
                 <div className="flex items-center gap-2">
                   <Clock size={20} className="shrink-0" />
@@ -274,13 +274,41 @@ function saludar() {
                   <div className="absolute top-[2px] left-[2px] bg-gray-600 w-4 h-4 rounded-full" />
                 </div>
               </button>
-              <div className="absolute -right-15 translate-x-1/2 -top-8 px-2 py-1 bg-gray-800 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+              <div className="absolute left-1/2 -translate-x-1/2 -top-8 px-2 py-1 bg-gray-800 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
                 Inicia sesión para activar el autoguardado
               </div>
             </div>
           </SignedOut>
+            
 
           <SignedIn>
+          <button
+                  onClick={handleDownload}
+                  className="cursor-pointer px-4 py-2 flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg text-white font-medium shadow-lg hover:shadow-xl transform hover:scale-101 transition-all duration-300 hover:from-blue-600 hover:to-purple-700"
+                  title="Descargar Markdown"
+                >
+                  <Download size={20} className="animate-pulse" />
+                  <span className="hidden md:inline">Descargar</span>
+                  <span className="sr-only">Descargar Markdown</span>
+          </button>
+          </SignedIn>
+          <SignedOut>
+          <button
+                  disabled
+                  className="cursor-not-allowed px-4 py-2 flex items-center gap-2 bg-gradient-to-r from-gray-500 to-gray-600 rounded-lg text-gray-300 font-medium shadow-lg opacity-75 relative group"
+                  title="Iniciar sesión para descargar"
+                >
+                  <Download size={20} className="opacity-50" />
+                  <span className="hidden md:inline">Descargar</span>
+                  <span className="sr-only">Descargar Markdown</span>
+                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-800 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+                    Inicia sesión para descargar
+                  </div>
+          </button>
+          </SignedOut>
+
+
+          {/* <SignedIn>
           <DocumentList markdown={markdown} onEdit={(doc) => {
           setTitle(doc.title);
           setDescription(doc.description);
@@ -293,14 +321,18 @@ function saludar() {
           setDescription(doc.description);
           setMarkdown(doc.content); 
           }} />
-        </SignedOut>
+        </SignedOut> */}
 
-          <div className={`animate-fade-in duration-300 relative`}>
+          
+          <div className="relative">
+            <div className="flex justify-center">
+              <label>Seleccionar Tema</label>
+            </div>
               <button
                 onClick={() => document.getElementById('theme-dropdown')?.classList.toggle('hidden')}
-                className="flex items-center gap-2 bg-gray-800 text-white rounded-lg px-4 py-2 text-sm w-full
+                className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 hover:scale-101 text-white rounded-lg px-4 py-2 text-sm w-full
                   border border-gray-700 hover:border-purple-500 hover:bg-gray-700
-                  transition-all duration-200 cursor-pointer group"
+                  transition-all duration-300 cursor-pointer group"
               >
                 <span className="capitalize">{previewTheme}</span>
                 <ArrowDown 
@@ -335,7 +367,6 @@ function saludar() {
                 </div>
               </div>
             </div>
-
           </div>
 
           <div className="flex flex-col h-full justify-end items-center space-y-4 w-full">
@@ -355,7 +386,7 @@ function saludar() {
                 <button className="cursor-pointer flex items-center justify-center text-gray-300 hover:text-white transition-colors duration-200 bg-gray-800 rounded-lg px-3 py-2 w-full">
                   <div className="flex gap-2 items-center">
                     <LogOutIcon className={`size-7 lg:size-5 rotate-180 ${isSidebarCollapsed ? 'lg:size-4' : ''}`} />
-                    <span className={`inline-block ${isSidebarCollapsed ? 'lg:hidden' : ''}`}>Cerrar Sesión</span>
+                    <span className={`inline-block`}>Cerrar Sesión</span>
                   </div>
                 </button>
               </SignOutButton>
@@ -378,19 +409,9 @@ function saludar() {
                 <h1 className="text-lg sm:text-2xl font-bold title-gradient-text font-Audiowide">
                   Panel de Edición
                 </h1>
-                <p className="text-gray-400">archivo en edicion: {title || 'Ninguno'}</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <button
-                  onClick={handleDownload}
-                  className="cursor-pointer px-4 py-2 flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg text-white font-medium shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 hover:from-blue-600 hover:to-purple-700"
-                  title="Descargar Markdown"
-                >
-                  <Download size={20} className="animate-pulse" />
-                  <span className="hidden md:inline">Descargar</span>
-                  <span className="sr-only">Descargar Markdown</span>
-                </button>
                 <div className="flex rounded-lg bg-gray-800/30 p-1">
                   <button
                     onClick={() => setActiveTab("write")}

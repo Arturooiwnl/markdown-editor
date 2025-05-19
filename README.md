@@ -27,3 +27,6 @@ version 0.1.1
 > - Se eliminaron dependencias no utilizadas y se limpió el código
 ## 1.2.2 (16/05/2025)
 - Se modificó el archivo EditorsSection.astro para actualizar la etiqueta de versión y agregar la etiqueta beta.
+## 1.3.2 (19/05/2025)
+- Se removio las funcionalidades de guardado en la nube y crud de documentos.
+- Se añadio la pagina de changelog.

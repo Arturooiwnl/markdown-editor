@@ -75,3 +75,54 @@
     @apply flex flex-row-reverse text-white text-sm;
 }
 
+.alert {
+    @apply p-4 mb-4 rounded-lg border-l-4;
+  }
+
+  .alert-info {
+    @apply bg-blue-50 text-blue-800 border-blue-500 dark:bg-blue-900/30 dark:text-blue-300;
+  }
+
+  .alert-warning {
+    @apply bg-yellow-50 text-yellow-800 border-yellow-500 dark:bg-yellow-900/30 dark:text-yellow-300;
+  }
+
+  .alert-danger {
+    @apply bg-red-50 text-red-800 border-red-500 dark:bg-red-900/30 dark:text-red-300;
+  }
+
+  .alert-success {
+    @apply bg-green-50 text-green-800 border-green-500 dark:bg-green-900/30 dark:text-green-300;
+  }
+
+  .tip {
+    @apply flex gap-3 p-4 bg-purple-50 rounded-lg border border-purple-200 dark:bg-purple-900/30 dark:border-purple-800;
+  }
+
+  .tip-icon {
+    @apply text-2xl;
+  }
+
+  .tip-content {
+    @apply text-purple-900 dark:text-purple-200;
+  }
+
+  .discord-card {
+    @apply flex justify-center items-center gap-4 p-4 bg-[#5865F2]/10 hover:bg-[#5865F2]/20 rounded-lg border border-[#5865F2]/20 transition-all;
+  }
+
+  .discord-icon {
+    @apply text-[#5865F2];
+  }
+
+  .discord-content {
+    @apply flex flex-col;
+  }
+
+  .discord-content h3 {
+    @apply text-lg font-semibold text-[#5865F2] m-0;
+  }
+
+  .discord-content p {
+    @apply text-sm text-gray-600 dark:text-gray-300 m-0;
+  }

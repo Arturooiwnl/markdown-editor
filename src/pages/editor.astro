@@ -5,6 +5,44 @@ import Footer from '@/components/Footer.astro';
 ---
 
 <Layout title='MarkdownEditor | Editor | Un editor de Markdown fácil de usar y gratis.'>
-	<MarkdownEditorPanel client:only/>
+	<div id="editor-skeleton" class="animate-pulse">
+		<div id="editor-skeleton-sidebar" class="absolute left-0 top-0 h-screen w-64 bg-gray-800/50 flex">
+			<div class="p-4 space-y-4">
+				<div class="h-8 bg-gray-700/50 rounded-lg"></div>
+				<div class="h-10 bg-gray-700/50 rounded-lg"></div>
+				<div class="h-10 bg-gray-700/50 rounded-lg"></div>
+			</div>
+		</div>
+		<div id="editor-skeleton-main" class="ml-64 p-4 mt-20">
+			<div class="grid grid-cols-2 gap-4 h-[calc(100vh-8rem)]">
+				<div class="bg-gray-800/50 rounded-lg"></div>
+				<div class="bg-gray-800/50 rounded-lg"></div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="editor-content" class="hidden h-full">
+		<MarkdownEditorPanel client:only/>
+	</div>
 	<Footer actualPage='/editor'/>
 </Layout>
+
+<script is:inline>
+	setTimeout(() => {
+		const skeleton = document.getElementById('editor-skeleton');
+		const editorContent = document.getElementById('editor-content');
+
+		if (skeleton && editorContent) {
+			skeleton.classList.add('hidden');
+			editorContent.classList.remove('hidden');
+		}
+	}, 1000);
+</script>
+
+
+<style>
+	#editor-skeleton-sidebar,  
+	#editor-skeleton-main  {
+		display: block;
+	}
+</style>
