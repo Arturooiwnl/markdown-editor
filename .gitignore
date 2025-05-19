@@ -17,3 +17,5 @@ pnpm-debug.log*
 .env.production
 .env.local
 .env
+
+.vercel
