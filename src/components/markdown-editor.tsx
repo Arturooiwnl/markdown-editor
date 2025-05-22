@@ -6,7 +6,6 @@ import { useState, useRef, useEffect, forwardRef, useImperativeHandle } from "re
 import { useDrop } from "react-dnd"
 import { ItemTypes } from "@/lib/item-types"
 import { cn } from "@/lib/utils"
-import { BackgroundUpload } from "./BackgroundUpload"
 
 interface MarkdownEditorProps {
   value: string
