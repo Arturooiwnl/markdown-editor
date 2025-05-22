@@ -21,6 +21,7 @@
     "@types/react": "^19.1.4",
     "@types/react-dom": "^19.1.4",
     "astro": "^5.7.12",
+    "firebase": "^11.7.3",
     "lucide-react": "^0.510.0",
     "react": "^19.1.0",
     "react-dnd": "^16.0.1",

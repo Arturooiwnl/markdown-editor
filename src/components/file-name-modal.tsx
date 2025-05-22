@@ -14,21 +14,21 @@ export function FileNameModal({ isOpen, onClose, onConfirm, defaultFileName = "d
   const [fileName, setFileName] = useState(defaultFileName)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  // useEffect(() => {
-  //   if (isOpen) {
-  //     document.body.style.overflow = 'hidden'
-  //   } else {
-  //     document.body.style.overflow = 'auto'
-  //   }
-  //   return () => {
-  //     document.body.style.overflow = 'auto'
-  //   }
-  // }, [isOpen])
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+    return () => {
+      document.body.style.overflow = 'auto'
+    }
+  }, [isOpen])
 
   useEffect(() => {
     if (isOpen) {
       setFileName(defaultFileName)
-      // Focus the input after a short delay to ensure the modal is visible
+      // hacer focus al input
       setTimeout(() => {
         inputRef.current?.focus()
         inputRef.current?.select()
@@ -50,7 +50,9 @@ export function FileNameModal({ isOpen, onClose, onConfirm, defaultFileName = "d
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-3 sm:px-0" onKeyDown={handleKeyDown}>
+    <div 
+    style={{ position: 'fixed' as const, top: 0, left: 0, width: '100vw', height: '100vh'}}
+    className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-3 sm:px-0" onKeyDown={handleKeyDown}>
       <div
         className="animate-fade-in bg-gray-900 border border-gray-800 rounded-lg shadow-xl w-full max-w-md p-6 animate-in fade-in zoom-in duration-200"
         onClick={(e) => e.stopPropagation()}

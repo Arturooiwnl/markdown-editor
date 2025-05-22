@@ -1,7 +1,5 @@
 ---
-import { SignedIn, SignedOut, SignInButton, SignOutButton } from "@clerk/astro/components";
-
-import { User2,LayoutDashboardIcon } from "lucide-react";
+import LoginButton from "../components/auth/Login";
 
 interface Props {
 	actualPage?: string;
@@ -12,22 +10,22 @@ const { actualPage = '/' } = Astro.props;
 const NAVIGATIONS = [
     { 
         name: 'Inicio', 
-        href: actualPage === '/editor' || actualPage === '/changelog' ? '/' : '#inicio', 
+        href: actualPage === '/editor' ? '/' : '#inicio', 
         label: 'inicio' 
     },
     { 
         name: 'Editores', 
-        href: actualPage === '/editor' || actualPage === '/changelog' ? '/#editores' : '#editores', 
+        href: actualPage === '/editor' ? '/#editores' : '#editores', 
         label: 'editores' 
     },
     { 
         name: 'FAQ', 
-        href: actualPage === '/editor' || actualPage === '/changelog' ? '/#faq' : '#faq', 
+        href: actualPage === '/editor' ? '/#faq' : '#faq', 
         label: 'faq' 
     },
     { 
         name: 'Changelog', 
-        href: actualPage === '/editor' || actualPage === '/changelog' ? '/changelog' : '/changelog', 
+        href: actualPage === '/editor' ? '/changelog' : '#changelog', 
         label: 'changelog' 
     },
 ];
@@ -78,27 +76,8 @@ const NAVIGATIONS = [
     </nav>
 		<div class="group mt-2">
 
-      <SignedOut>
-        <SignInButton class="cursor-pointer relative inline-flex items-center justify-center px-3 py-1 font-medium text-white transition-all duration-300 bg-gradient-to-r from-blue-600 to-violet-600 rounded-lg hover:from-blue-700 hover:to-violet-700 hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-blue-500/25 gap-1" mode="modal">
-          <User2 className="w-5 h-5" />
-          <span class="relative flex items-center gap-2">
-            Iniciar Sesión
-          </span>
-        </SignInButton>
-      </SignedOut>
-      <SignedIn>
-        <div class="flex items-center gap-3">
-          <SignOutButton class="hover:text-white/80 text-sm cursor-pointer">
-            Cerrar Sesión
-          </SignOutButton>
-          <a href="/editor" aria-label="ir al editor" class="relative inline-flex items-center justify-center px-3 py-1 font-medium text-white transition-all duration-300 bg-gradient-to-r from-blue-600 to-violet-600 rounded-lg hover:from-blue-700 hover:to-violet-700 hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-blue-500/25 gap-1">
-            <LayoutDashboardIcon className="w-5 h-5" />
-            <span class="relative flex items-center gap-2">
-              Editor
-            </span>
-          </a>
-        </div>
-      </SignedIn>
+      <LoginButton client:load/>
+
 		</div>
 	</div>
 </header>
@@ -129,10 +108,84 @@ const NAVIGATIONS = [
 
 <script is:inline>
 
+    
+
+
     const hamburgerMenu = document.getElementById('hamburger-menu');
     const mobileMenu = document.getElementById('mobile-menu');
     const navigationLinks = mobileMenu.querySelectorAll('a');
 
+    // Función para manejar la visibilidad de las secciones y actualizar el footer
+    function handleSectionVisibility(targetSection) {
+        const sections = document.querySelectorAll('section');
+        const footer = document.querySelector('.footer');
+        const isChangelog = targetSection === 'changelog';
+
+        // Actualizar el ID del footer
+        if (footer) {
+            // Verificar si hay alguna sección visible
+            const hasVisibleSection = Array.from(sections).some(section => 
+                !section.classList.contains('hidden') && section.id !== 'changelog'
+            );
+
+            // Si no hay sección visible o estamos en changelog, asignar el ID correspondiente
+            footer.id = isChangelog ? 'changelog' : (hasVisibleSection ? section.id : 'faq');
+        }
+
+        sections.forEach(section => {
+            if (isChangelog) {
+                // changelog = ocultar todo
+                if (section.id !== 'changelog') {
+                    section.classList.add('hidden');
+                } else {
+                    section.classList.remove('hidden');
+                }
+            } else {
+                // != changelog = ocultar changelog
+                if (section.id === 'changelog') {
+                    section.classList.add('hidden');
+                } else {
+                    section.classList.remove('hidden');
+                }
+            }
+        });
+    }
+
+    // Verificar el estado inicial del footer
+    document.addEventListener('DOMContentLoaded', () => {
+        const footer = document.querySelector('.footer');
+        const sections = document.querySelectorAll('section');
+        
+        if (footer) {
+            // Verificar si estamos en la página de changelog
+            const isChangelog = window.location.pathname.includes('changelog');
+            
+            if (isChangelog) {
+                footer.id = 'changelog';
+            } else {
+                // Verificar si hay alguna sección visible que no sea changelog
+                const visibleSection = Array.from(sections).find(section => 
+                    !section.classList.contains('hidden') && section.id !== 'changelog'
+                );
+                
+                // Si no hay sección visible, establecer 'faq' como valor por defecto
+                footer.id = visibleSection ? 'faq' : 'faq';
+            }
+        }
+      });
+    // Manejador de clicks para los enlaces de navegación
+    document.querySelectorAll('nav a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
+            if (href.includes('changelog')) {
+                handleSectionVisibility('changelog');
+            } else {
+                handleSectionVisibility('other');
+            }
+        });
+    });
+
+    // Mantener el resto del código existente
     hamburgerMenu.addEventListener('click', () => {
         mobileMenu.classList.toggle('hidden');
         hamburgerMenu.classList.toggle('open'); 
@@ -190,5 +243,8 @@ const NAVIGATIONS = [
       }
     }
   })
+
+
+
 
 </script>

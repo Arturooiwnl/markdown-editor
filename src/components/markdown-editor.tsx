@@ -6,16 +6,18 @@ import { useState, useRef, useEffect, forwardRef, useImperativeHandle } from "re
 import { useDrop } from "react-dnd"
 import { ItemTypes } from "@/lib/item-types"
 import { cn } from "@/lib/utils"
+import { BackgroundUpload } from "./BackgroundUpload"
 
 interface MarkdownEditorProps {
   value: string
   onChange: (value: string) => void
+  backgroundColor?: string
 }
 
 export type FormatTextFunction = (prefix: string, suffix?: string) => void
 
 export const MarkdownEditor = forwardRef<{ formatSelectedText: FormatTextFunction }, MarkdownEditorProps>(
-  ({ value, onChange }, ref) => {
+  ({ value, onChange, backgroundColor }, ref) => {
     const editorRef = useRef<HTMLTextAreaElement>(null)
     const [dropTarget, setDropTarget] = useState<{ start: number; end: number } | null>(null)
     const [selection, setSelection] = useState<{ start: number; end: number } | null>(null)
@@ -165,9 +167,9 @@ export const MarkdownEditor = forwardRef<{ formatSelectedText: FormatTextFunctio
         const end = e.currentTarget.selectionEnd
 
         if (start !== end) {
-          const exampleUrl = "https://mneditor.arturoiwnl.pro/"
+          const exampleUrl = "https://mdeditor.arturoiwnl.pro/"
           const selectedText = value.substring(start, end)
-          const newValue = value.substring(0, start) + "[" + selectedText + "](https://mneditor.arturoiwnl.pro/)" + value.substring(end)
+          const newValue = value.substring(0, start) + "[" + selectedText + "](https://mdeditor.arturoiwnl.pro/)" + value.substring(end)
           onChange(newValue)
 
           // Posicionar el cursor en la url y seleccionarla
@@ -204,25 +206,39 @@ export const MarkdownEditor = forwardRef<{ formatSelectedText: FormatTextFunctio
           isOver && "border-dashed border-gray-50 bg-gray-900",
         )}
       >
-        <textarea
-          ref={editorRef}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          onKeyDown={handleKeyDown}
-          onSelect={handleSelectionChange}
-          onMouseUp={handleSelectionChange}
-          onBlur={() => setTimeout(handleSelectionChange, 100)}
-          className="w-full h-full min-h-[400px] p-6 bg-gray-900 text-white font-mono resize-none outline-none rounded-lg"
-          placeholder="Escribe tu Markdown aquí..."
-        />
+        <div 
+          className="relative w-full h-full"
+        >
+          <div className="absolute left-0 top-0 h-full w-[40px] bg-gray-900/90 flex flex-col pt-[1.5rem] text-gray-500 select-none font-mono text-sm border-r border-gray-700">
+            {value.split('\n').map((_, i) => (
+              <div key={i} className="h-[24px] flex items-center justify-center text-xs">
+                {i + 1}
+              </div>
+            ))}
+          </div>
+          <textarea
+            ref={editorRef}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            onKeyDown={handleKeyDown}
+            onSelect={handleSelectionChange}
+            onMouseUp={handleSelectionChange}
+            onBlur={() => setTimeout(handleSelectionChange, 100)}
+            className={`w-full h-full min-h-[400px] pl-[50px] pr-6 py-6 ${backgroundColor} text-white font-mono resize-none outline-none rounded-lg leading-[24px]`}
+            placeholder="Escribe tu Markdown aquí..."
+            spellCheck={false}
+          />
+        </div>
         {isOver && (
           <div className="absolute inset-0 bg-gray-600/20 pointer-events-none flex items-center justify-center">
-            <div className="bg-black/50 text-white border border-gray-300 px-4 py-2 rounded-md italic">Suelta para insertar el Elemento</div>
+            <div className="bg-black/50 text-white border border-gray-300 px-4 py-2 rounded-md italic">
+              Suelta para insertar el Elemento
+            </div>
           </div>
         )}
       </div>
     )
-  },
+  }
 )
 
 MarkdownEditor.displayName = "MarkdownEditor"

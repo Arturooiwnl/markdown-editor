@@ -90,11 +90,6 @@ const { title, heroImage, description } = Astro.props;
 
 	}
 
-
-	:root {
-	  color-scheme: light dark;
-	}
-
 	html {
 	  font-family: system-ui, sans-serif;
 	  scroll-behavior: smooth;
@@ -111,12 +106,6 @@ const { title, heroImage, description } = Astro.props;
 	@media (prefers-reduced-motion: reduce) {
 	  html {
 		scroll-behavior: auto;
-	  }
-	}
-
-	@media (prefers-color-scheme: dark) {
-	  body {
-		color: rgba(255, 255, 255, 0.9);
 	  }
 	}
 
@@ -141,7 +130,7 @@ main {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    @apply dark:text-gray-300 text-gray-800 mb-4 font-bold tracking-tight;
+    @apply text-gray-300 mb-4 font-bold tracking-tight;
     line-height: 1.2;
 	text-align: center;
 }
@@ -154,11 +143,11 @@ h5 { font-size: clamp(1.25rem, 2vw, 1.25rem); }
 h6 { font-size: clamp(1rem, 1.5vw, 1.1rem); }
 
 strong, b {
-    @apply font-bold dark:text-gray-200 text-gray-900;
+    @apply font-bold text-gray-200 ;
 }
 
 p {
-    @apply dark:text-gray-300 text-gray-800 mb-4;
+    @apply text-gray-300 mb-4;
 }
 
 .prose p {
@@ -166,7 +155,7 @@ p {
 }
 
 textarea, input {
-    @apply w-full text-base p-2 rounded-md border dark:border-gray-700 border-gray-300;
+    @apply w-full text-base p-2 rounded-md border border-gray-700 ;
     font-family: inherit;
 }
 
@@ -175,15 +164,15 @@ table {
 }
 
 th, td {
-    @apply border dark:border-gray-700 border-gray-300 p-2 text-left;
+    @apply border border-gray-700  p-2 text-left;
 }
 
 code {
-    @apply dark:bg-gray-800 dark:text-gray-200 bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded-md text-sm;
+    @apply bg-gray-800 text-gray-200 px-1.5 py-0.5 rounded-md text-sm;
 }
 
 pre {
-    @apply p-4 rounded-lg overflow-x-auto mb-4 dark:bg-gray-800 bg-gray-100;
+    @apply p-4 rounded-lg overflow-x-auto mb-4 bg-gray-800;
 }
 
 pre > code {
@@ -191,11 +180,11 @@ pre > code {
 }
 
 blockquote {
-    @apply border-l-4  pl-4 italic my-4 dark:text-gray-300 text-gray-700;
+    @apply border-l-4  pl-4 italic my-4 text-gray-300 ;
 }
 
 hr {
-    @apply border-t-2 dark:border-gray-700 border-gray-200 my-8;
+    @apply border-t-2 border-gray-700  my-8;
 }
 
 ul, ol {
@@ -211,7 +200,7 @@ ol {
 }
 
 li {
-    @apply dark:text-gray-300 text-gray-800;
+    @apply text-gray-300;
     > ul, > ol {
         @apply mt-2 mb-0;
     }

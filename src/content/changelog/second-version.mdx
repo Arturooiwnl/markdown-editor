@@ -1,0 +1,49 @@
+---
+title: 'Segunda versión de MdEditor'
+description: 'En esta segunda versión se agregaron funcionalidades de guardado y gestión de documentos.'
+ver: '2.0.1'
+pubDate: '21 may 2025'
+heroImage: '/images/panel-editor.webp'
+---
+import Alert from '../../components/mdx/Alerts.astro';
+import DiscordCard from '../../components/mdx/DiscordCard.astro';
+
+# Novedades y Mejoras
+
+<Alert type="success">
+  ¡MdEditor evoluciona! Esta actualización trae consigo nuevas características centradas en la gestión y persistencia de documentos.
+</Alert>
+<Alert type="info">
+  Si encuentras algún error o tienes sugerencias, no dudes en contactarme en el servidor de Discord.
+</Alert>
+
+Esta versión introduce funcionalidades importantes para mejorar la experiencia de usuario y la gestión de documentos.
+
+## Características principales
+
+- **Autenticación**: 
+  > - Se migro la autenticación de Clerk a GitHub con Firebase Auth.
+
+- **Gestión de Documentos**:
+  > - Guardado de documentos en la nube.
+  > - Límite de 5 documentos por usuario (Por el momento).
+  > - Edición y actualización de documentos.
+  > - Eliminación de documentos.
+  > - Títulos y descripciones personalizadas.
+
+- **Mejoras en la Interfaz**:
+  > - Se modifico el selecor de temas para que sea global (Editor Y vista previa). 
+  > - Nueva sección de documentos guardados.
+  > - Modal de guardado mejorada.
+  > - Toasts para notificaciones.
+  > - Se adapto la seccion de Changelog para no refrescar la página.
+  > - Se resolvieron errores con colores.
+
+  <div className='flex justify-center text-2xl'>¡Y muchos más!</div>
+
+<Alert type="info">
+  Recuerda que necesitas iniciar sesión con GitHub para acceder a todas las nuevas funcionalidades.
+</Alert>
+
+
+<DiscordCard />

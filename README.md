@@ -1,5 +1,8 @@
 # MardkownEditor | Arturoiwnl
 
+![Markdown Editor og](https://mdeditor.arturoiwnl.pro/og/og-main.png)
+
+
 Herramienta para editar y crear archivos markdown.
 
 version 0.1.1
@@ -30,3 +33,13 @@ version 0.1.1
 ## 1.3.2 (19/05/2025)
 - Se removio las funcionalidades de guardado en la nube y crud de documentos.
 - Se añadio la pagina de changelog.
+## 2.0.1 (21/05/2025)
+refactor(auth) y agregacion (Persistencia en Nube): Migración de Clerk a Firebase para la autenticación y Usos de Base de datos de Firebase (Firestore Database)
+
+Esta confirmación reemplaza el sistema de autenticación de Clerk con Firebase Auth, utilizando GitHub como proveedor y Una implementacion con Firestore Database para la persistencia de docu,mentos y datos relevantes. Los cambios incluyen:
+- Eliminación de dependencias y configuraciones relacionadas con Clerk.
+- Incorporación del SDK de Firebase e implementación de la funcionalidad de inicio/cierre de sesión de GitHub.
+- Persistencia de Documentos y crud de los mismo
+- Actualización de componentes para usar Firebase Auth en lugar de Clerk.
+- Incorporación de nuevos componentes para inicio de sesión, perfil de usuario y notificaciones emergentes.
+- Ajuste del estilo y la disposición para adaptarse al nuevo sistema de autenticación.

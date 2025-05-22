@@ -8,9 +8,8 @@ import { ToolbarSection } from "@/components/toolbar-section"
 import { ElementLibrary } from "@/components/element-library"
 import { LinkModal } from "@/components/link-modal"
 import { Download, ArrowLeftSquare, ArrowDown, ChevronRight, LogInIcon, LogOutIcon, Clock, Save} from "lucide-react"
-import { FileNameModal } from "@/components/file-name-modal"
-import { SignedIn, SignedOut, SignInButton, SignOutButton, UserButton, useAuth } from "@clerk/astro/react"
-import { cn } from "@/lib/utils"
+import { loginWithGitHub, logout, auth } from '../lib/firebase';
+import { onAuthStateChanged } from 'firebase/auth'
 import DocumentList from './DocumentsList';
 
 export default function Home() {
@@ -56,7 +55,6 @@ function saludar() {
   const [isLinkModalOpen, setIsLinkModalOpen] = useState(false)
   const [selectedText, setSelectedText] = useState("")
   const [selectionRange, setSelectionRange] = useState<{ start: number; end: number } | null>(null)
-  const [isFileNameModalOpen, setIsFileNameModalOpen] = useState(false)
   const [previewTheme, setPreviewTheme] = useState<"site" | "github" | "monokai" | "dracula" | "nord">("site")
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -64,14 +62,20 @@ function saludar() {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [isEditorMode, setIsEditorMode] = useState(true)
+  const [user, setUser] = useState<any>(null);
 
-  const { isLoaded, userId } = useAuth()
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Cambiamos esto para evitar el error cuando user es null
+  const userId = user?.uid || null;
 
   const editorRef = useRef<{ formatSelectedText: FormatTextFunction } | null>(null)
   
-  const toggleSidebar = () => {
-    setIsSidebarCollapsed(!isSidebarCollapsed)
-  }
 
   const toggleMobileSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen)
@@ -118,23 +122,6 @@ function saludar() {
     }
   }
 
-  const handleDownload = () => {
-    setIsFileNameModalOpen(true)
-  }
-
-  const handleDownloadConfirm = (fileName: string) => {
-    const blob = new Blob([markdown], { type: "text/markdown;charset=utf-8" })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement("a")
-    a.href = url
-    a.download = `${fileName}.md`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
-    setIsFileNameModalOpen(false)
-  }
-
   const getPreviewBackground = () => {
     switch (previewTheme) {
       case "site":
@@ -154,7 +141,7 @@ function saludar() {
 
   // Cargar preferencias y contenido al iniciar
   useEffect(() => {
-    if (isLoaded && userId) {
+    if (userId) {
       // Cargar preferencia de autoguardado
       const savedAutoSave = localStorage.getItem(`autosave-${userId}`)
       if (savedAutoSave === 'true') {
@@ -167,7 +154,7 @@ function saludar() {
         setMarkdown(savedContent)
       }
     }
-  }, [isLoaded, userId])
+  }, [userId])
   
   // Guardar preferencia cuando cambie autoSave
   useEffect(() => {
@@ -237,8 +224,7 @@ function saludar() {
               <span className="font-medium">Volver al Inicio</span>
             </a>
           </div>
-
-          <SignedIn>
+          {user ? (
             <div className="relative group">
               <button
                 onClick={() => setAutoSave(!autoSave)}
@@ -258,9 +244,7 @@ function saludar() {
                 {autoSave ? 'Desactivar Autoguardado' : 'Activar Autoguardado'}
               </div>
             </div>
-          </SignedIn>
-
-          <SignedOut>
+          ) : (
             <div className="relative group">
               <button 
                 disabled
@@ -278,51 +262,28 @@ function saludar() {
                 Inicia sesión para activar el autoguardado
               </div>
             </div>
-          </SignedOut>
-            
+          )}
 
-          <SignedIn>
-          <button
-                  onClick={handleDownload}
-                  className="cursor-pointer px-4 py-2 flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg text-white font-medium shadow-lg hover:shadow-xl transform hover:scale-101 transition-all duration-300 hover:from-blue-600 hover:to-purple-700"
-                  title="Descargar Markdown"
-                >
-                  <Download size={20} className="animate-pulse" />
-                  <span className="hidden md:inline">Descargar</span>
-                  <span className="sr-only">Descargar Markdown</span>
-          </button>
-          </SignedIn>
-          <SignedOut>
-          <button
-                  disabled
-                  className="cursor-not-allowed px-4 py-2 flex items-center gap-2 bg-gradient-to-r from-gray-500 to-gray-600 rounded-lg text-gray-300 font-medium shadow-lg opacity-75 relative group"
-                  title="Iniciar sesión para descargar"
-                >
-                  <Download size={20} className="opacity-50" />
-                  <span className="hidden md:inline">Descargar</span>
-                  <span className="sr-only">Descargar Markdown</span>
-                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-800 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
-                    Inicia sesión para descargar
-                  </div>
-          </button>
-          </SignedOut>
-
-
-          {/* <SignedIn>
-          <DocumentList markdown={markdown} onEdit={(doc) => {
-          setTitle(doc.title);
-          setDescription(doc.description);
-          setMarkdown(doc.content); 
-          }} />
-        </SignedIn>
-        <SignedOut>
-          <DocumentList disabled markdown={markdown} onEdit={(doc) => {
-          setTitle(doc.title);
-          setDescription(doc.description);
-          setMarkdown(doc.content); 
-          }} />
-        </SignedOut>  */}
-
+          {user ? (
+            <DocumentList 
+              markdown={markdown} 
+              onEdit={(doc) => {
+                setTitle(doc.title);
+                setDescription(doc.description);
+                setMarkdown(doc.content); 
+              }} 
+            />
+          ) : (
+            <DocumentList 
+              disabled 
+              markdown={markdown} 
+              onEdit={(doc) => {
+                setTitle(doc.title);
+                setDescription(doc.description);
+                setMarkdown(doc.content); 
+              }} 
+            />
+          )}
           
           <div className="relative">
             <div className="flex justify-center">
@@ -370,27 +331,29 @@ function saludar() {
           </div>
 
           <div className="flex flex-col h-full justify-end items-center space-y-4 w-full">
-            <SignedOut>
-              <SignInButton mode="modal">
-                <button className="cursor-pointer flex items-center justify-center text-gray-300 hover:text-white transition-colors duration-200 bg-gray-800 rounded-lg px-3 py-2 w-full">
-                  <div className="flex gap-2 items-center">  
-                    <LogInIcon className={`size-7 lg:size-5 ${isSidebarCollapsed ? 'lg:size-4' : ''}`} />
-                    <span className={`inline-block ${isSidebarCollapsed ? 'lg:hidden' : ''}`}>Iniciar Sesión</span>
-                  </div>
-                </button>
-              </SignInButton>
-            </SignedOut>
-            <SignedIn>
-              <UserButton/>
-              <SignOutButton>
-                <button className="cursor-pointer flex items-center justify-center text-gray-300 hover:text-white transition-colors duration-200 bg-gray-800 rounded-lg px-3 py-2 w-full">
+            {!user ? (
+              <button 
+                onClick={() => loginWithGitHub()}
+                className="cursor-pointer flex items-center justify-center text-gray-300 hover:text-white transition-colors duration-200 bg-gray-800 rounded-lg px-3 py-2 w-full"
+              >
+                <div className="flex gap-2 items-center">  
+                  <LogInIcon className={`size-7 lg:size-5 ${isSidebarCollapsed ? 'lg:size-4' : ''}`} />
+                  <span className={`inline-block`}>Iniciar Sesión</span>
+                </div>
+              </button>
+            ) : (
+              <div className="w-full space-y-2">
+                <button 
+                  onClick={() => logout()}
+                  className="cursor-pointer flex items-center justify-center text-gray-300 hover:text-white transition-colors duration-200 bg-gray-800 rounded-lg px-3 py-2 w-full"
+                >
                   <div className="flex gap-2 items-center">
                     <LogOutIcon className={`size-7 lg:size-5 rotate-180 ${isSidebarCollapsed ? 'lg:size-4' : ''}`} />
                     <span className={`inline-block`}>Cerrar Sesión</span>
                   </div>
                 </button>
-              </SignOutButton>
-            </SignedIn>
+              </div>
+            )}
           </div>
         </div>
       </aside>
@@ -464,6 +427,7 @@ function saludar() {
                     />
                     <ElementLibrary />
                     <MarkdownEditor
+                      backgroundColor={getPreviewBackground()}
                       value={markdown}
                       onChange={setMarkdown}
                       ref={(el) => {
@@ -479,7 +443,7 @@ function saludar() {
 
                 {(activeTab === "preview" || activeTab === "split") && (
                   <div
-                    className={`${activeTab === "split" ? "-z-10 animate-fade-in animate-duration-500 md:w-1/2" : "-z-10 w-full sm:px-10"} ${getPreviewBackground()} rounded-lg p-6 overflow-auto`}
+                    className={`${activeTab === "split" ? " animate-fade-in animate-duration-500 md:w-1/2" : " w-full sm:px-10"} ${getPreviewBackground()} rounded-lg p-6 overflow-auto`}
                   >
                     <MarkdownPreview markdown={markdown} codeStyle={previewTheme}/>
                   </div>
@@ -494,12 +458,6 @@ function saludar() {
           onClose={() => setIsLinkModalOpen(false)}
           onConfirm={handleLinkConfirm}
           selectedText={selectedText}
-        />
-        <FileNameModal
-          isOpen={isFileNameModalOpen}
-          onClose={() => setIsFileNameModalOpen(false)}
-          onConfirm={handleDownloadConfirm}
-          defaultFileName="document"
         />
       </main>
   )

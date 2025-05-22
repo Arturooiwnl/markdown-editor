@@ -14,22 +14,22 @@ const { actualPage = '/' } = Astro.props;
 const NAVIGATIONS = [
 { 
         name: 'Inicio', 
-        href: actualPage === '/editor' || actualPage === '/changelog' ? '/' : '#inicio', 
+        href: actualPage === '/editor' ? '/' : '#inicio', 
         label: 'inicio' 
     },
     { 
         name: 'Editores', 
-        href: actualPage === '/editor' || actualPage === '/changelog' ? '/#editores' : '#editores', 
+        href: actualPage === '/editor' ? '/#editores' : '#editores', 
         label: 'editores' 
     },
     { 
         name: 'FAQ', 
-        href: actualPage === '/editor' || actualPage === '/changelog' ? '/#faq' : '#faq', 
+        href: actualPage === '/editor' ? '/#faq' : '#faq', 
         label: 'faq' 
     },
     { 
         name: 'Changelog', 
-        href: actualPage === '/editor' || actualPage === '/changelog' ? '/changelog' : '/changelog', 
+        href: actualPage === '/editor' ? '/#changelog' : '#changelog', 
         label: 'changelog' 
     },
 ];
@@ -64,7 +64,7 @@ const SOCIAL_LINKS = [
 
 ---
 
-<section id={actualPage === '/changelog' ? 'changelog' : 'faq'} class="footer">
+<section id="changelog" class="footer">
     <footer class="relative mt-15 bg-gradient-to-t from-20% from-slate-900/50 to-transparent">
         <div class="-z-5 absolute inset-0 w-full h-full overflow-hidden">
             <svg width="100%" height="100%" class="absolute opacity-10 dark:opacity-20">

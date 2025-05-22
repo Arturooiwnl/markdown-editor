@@ -19,3 +19,5 @@ pnpm-debug.log*
 .env
 
 .vercel
+
+/src/components/BackgroundUpload.tsx
