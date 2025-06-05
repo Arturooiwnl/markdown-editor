@@ -8,7 +8,6 @@ import Toast from './Toast';
 import UserProfile from './auth/UserProfile';
 import { FileNameModal } from "@/components/file-name-modal"
 
-// @ts-ignore
 interface DocumentListProps {
   onEdit?: (doc: any) => void;
   markdown: string;

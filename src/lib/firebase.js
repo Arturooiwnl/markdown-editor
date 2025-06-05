@@ -4,13 +4,13 @@ import { getFirestore } from "firebase/firestore";
 import {getAuth, GithubAuthProvider, signInWithPopup, signOut} from 'firebase/auth';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAFocePCinB4c8Q8M69gEBuspsupg9zPBY",
-    authDomain: "clickerweb-f1b6f.firebaseapp.com",
-    projectId: "clickerweb-f1b6f",
-    storageBucket: "clickerweb-f1b6f.firebasestorage.app",
-    messagingSenderId: "39900726495",
-    appId: "1:39900726495:web:a4b3a914c29ab54e75956a",
-    measurementId: "G-0W7Y1EDTHK"
+    apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
+    authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.PUBLIC_FIREBASE_APP_ID,
+    measurementId: import.meta.env.PUBLIC_FIREBASE_MEASUREMENT_ID
   };
 
 const app = initializeApp(firebaseConfig);

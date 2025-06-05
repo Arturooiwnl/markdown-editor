@@ -28,12 +28,12 @@ version 0.1.1
 > - Se integró el cliente Supabase para operaciones CRUD de documentos
 > - Se actualizó `EditorMarkdown` con función de guardado automático y edición de documentos
 > - Se eliminaron dependencias no utilizadas y se limpió el código
-## 1.2.2 (16/05/2025)
+## 1.2.2 (16/05/2025) 
 - Se modificó el archivo EditorsSection.astro para actualizar la etiqueta de versión y agregar la etiqueta beta.
-## 1.3.2 (19/05/2025)
+## 1.3.2 (19/05/2025) 
 - Se removio las funcionalidades de guardado en la nube y crud de documentos.
 - Se añadio la pagina de changelog.
-## 2.0.1 (21/05/2025)
+## 2.0.1 (21/05/2025) 
 refactor(auth) y agregacion (Persistencia en Nube): Migración de Clerk a Firebase para la autenticación y Usos de Base de datos de Firebase (Firestore Database)
 
 Esta confirmación reemplaza el sistema de autenticación de Clerk con Firebase Auth, utilizando GitHub como proveedor y Una implementacion con Firestore Database para la persistencia de docu,mentos y datos relevantes. Los cambios incluyen:
@@ -43,3 +43,5 @@ Esta confirmación reemplaza el sistema de autenticación de Clerk con Firebase 
 - Actualización de componentes para usar Firebase Auth en lugar de Clerk.
 - Incorporación de nuevos componentes para inicio de sesión, perfil de usuario y notificaciones emergentes.
 - Ajuste del estilo y la disposición para adaptarse al nuevo sistema de autenticación.
+## 2.0.2 (4/06/2025) 
+Refactor: eliminar LoginButton y actualizar configuración de Firebase para usar variables de entorno
